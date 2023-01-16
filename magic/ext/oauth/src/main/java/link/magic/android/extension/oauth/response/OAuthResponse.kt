@@ -1,0 +1,24 @@
+package link.magic.android.extension.oauth.response
+
+import link.magic.android.modules.user.response.UserMetadataResponse
+import org.web3j.protocol.core.Response
+
+class OAuthResponse: Response<OAuthResponseClass>()
+
+class OAuthResponseClass {
+    lateinit var magic: MagicPartialResult
+    lateinit var oauth: OAuthPartialResult
+}
+
+class OAuthPartialResult {
+    var provider: String? = null
+    var scope: List<String>? = null
+    var accessToken: String? = null
+    var userHandle: String? = null
+    lateinit var userInfo: OpenIDConnectProfile
+}
+
+class MagicPartialResult {
+    var idToken: String? = null
+    lateinit var userMetadata: UserMetadataResponse;
+}

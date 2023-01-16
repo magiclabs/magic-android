@@ -1,0 +1,55 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    // Shared dependecies version
+    ext.kotlin_version = '1.6.21'
+    ext.gson_version = '2.9.0'
+    ext.appcompat_version = '1.5.1'
+    ext.web3j_version = '4.8.8-android'
+    ext.junit_version = '4.13.2'
+
+    repositories {
+        mavenCentral()
+        google()
+        // SnapShots repo
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // to the build.gradle files in the stand-alone module
+    }
+}
+
+plugins {
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        // SnapShots repo
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+
+    File secretPropsFile = project.rootProject.file('local.properties')
+    if (secretPropsFile.exists()) {
+        // Read local.properties file first if it exists
+        Properties p = new Properties()
+        new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
+        p.each { name, value -> ext[name] = value }
+    } else {
+        // Use system environment variables
+        ext["NEXUS_USERNAME"] = System.getenv('NEXUS_USERNAME')
+        ext["NEXUS_PASSWORD"] = System.getenv('NEXUS_PASSWORD')
+        ext["signing.keyId"] = System.getenv('signing.keyId')
+        ext["signing.password"] = System.getenv('signing.password')
+        ext["signing.key"] = System.getenv('signing.key')
+    }
+}

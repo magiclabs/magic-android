@@ -1,0 +1,6 @@
+<!-- https://github.com/justinludwig/jpgpj/issues/3 -->
+<lint>
+    <issue id="InvalidPackage">
+        <ignore path="**/bcprov-jdk15on-*.jar"/>
+    </issue>
+</lint>

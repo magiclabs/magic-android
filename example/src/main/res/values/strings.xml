@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Magic Android Demo</string>
+    <string name="phone_hint">Enter your phone</string>
+    <string name="login">Email Login</string>
+    <string name="email_otp_login">Email OTP Login</string>
+    <string name="get_address">Get Address</string>
+    <string name="network_id">Network ID</string>
+    <string name="default_email">jerry@magic.link</string>
+    <string name="default_phoneNumber">+18888888888</string>
+    <string name="get_id_token">Get ID token</string>
+    <string name="web3">Web3</string>
+    <string name="magic_auth">Magic Auth</string>
+
+    <string name="logout">Logout</string>
+    <string name="get_metadata">Get Metadata</string>
+    <string name="update_email">Update Email</string>
+    <string name="is_logged_in">Is Logged In</string>
+    <string name="generate_id_token">Generate ID Token</string>
+    <string name="send_transaction">Send Transaction</string>
+    <string name="get_coinbase">Get Coinbase</string>
+    <string name="person_sign">Person Sign</string>
+    <string name="eth_sign">Eth Sign</string>
+    <string name="sign_typed_data_legacy">Sign Type Data Legacy</string>
+    <string name="sign_typed_data">Sign Typed Data</string>
+    <string name="sign_typed_data_v4">Sign Typed Data V4</string>
+    <string name="get_network">Chain ID</string>
+    <string name="get_balance">Get Balance</string>
+    <string name="deploy_contract">Deploy Contract</string>
+    <string name="Contract_read">Contract Read</string>
+    <string name="sign_typed_data_legacy_json">Sign Typed Data Legacy Json</string>
+    <string name="Contract_write">Contract Write</string>
+    <string name="social_login">Social Login</string>
+    <string name="openid_login">OpenID Login</string>
+    <string name="provider_id_hint">Please enter provider Id</string>
+    <string name="jwt_hint">Please enter JWT</string>
+    <string name="sms_login">SMS Login</string>
+
+    <!-- MC -->
+    <string name="magic_connect">Magic Connect</string>
+    <string name="mc_disconnect">Disconnect</string>
+    <string name="mc_get_wallet_info">Get Wallet Info</string>
+    <string name="mc_show_wallet">Show Wallet</string>
+    <string name="mc_request_user_info">Request UserInfo</string>
+</resources>
