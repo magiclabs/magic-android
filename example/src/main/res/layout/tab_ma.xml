@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
+
+        <!-- Magic functions -->
+        <TextView
+            android:id="@+id/text_auth"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/magic_auth"
+            android:textAlignment="center"
+            android:textSize="12pt" />
+
+        <Button
+            android:id="@+id/get_id_token"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_auth"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/get_id_token" />
+
+        <Button
+            android:id="@+id/generate_id_token"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/get_id_token"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/generate_id_token" />
+
+        <Button
+            android:id="@+id/get_metadata"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/generate_id_token"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/get_metadata" />
+
+        <Button
+            android:id="@+id/update_email"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/get_metadata"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/update_email" />
+
+        <Button
+            android:id="@+id/is_logged_in"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/update_email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/is_logged_in" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/is_logged_in"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/logout" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

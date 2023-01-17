@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="link.magic.demo.MainActivity">
+
+        <EditText
+            android:id="@+id/email_input"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/phone_hint"
+            android:layout_marginTop="50dp"
+            android:inputType="textEmailAddress"
+            android:text="@string/default_email"
+            android:autofillHints="email" />
+
+        <Button
+            android:id="@+id/email_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/login" />
+
+        <Button
+            android:id="@+id/email_otp_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/email_otp_login" />
+
+        <EditText
+            android:id="@+id/phone_number_input"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_otp_login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:autofillHints="phone"
+            android:hint="@string/phone_hint"
+            android:inputType="phone"
+            android:text="@string/default_phoneNumber" />
+
+        <Button
+            android:id="@+id/sms_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/phone_number_input"
+            android:text="@string/sms_login" />
+
+        <Spinner
+            android:id="@+id/provider_spinner"
+            android:layout_width="298dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sms_login_btn"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/social_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/provider_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/social_login" />
+
+        <EditText
+            android:id="@+id/provider_id_text"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/social_login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/provider_id_hint"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/jwt_text"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/provider_id_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="@string/jwt_hint"
+            android:inputType="text" />
+        <Button
+            android:id="@+id/openId_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/jwt_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/openid_login" />
+</RelativeLayout>
