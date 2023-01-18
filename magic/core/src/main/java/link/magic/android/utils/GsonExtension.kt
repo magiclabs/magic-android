@@ -9,7 +9,7 @@ import java.util.*
 
 class GsonExtension {
 
-    fun serializeSkipFields(vararg skipList: String) : Gson {
+    fun serialize() : Gson {
 
         /* Deserialize CAP Enum to its value in lower case */
         val paramsListType: Type = object : TypeToken<List<Any>>() {}.type
@@ -40,18 +40,6 @@ class GsonExtension {
             })
 
         return GsonBuilder()
-                    .addSerializationExclusionStrategy(object : ExclusionStrategy {
-                        override fun shouldSkipField(f: FieldAttributes): Boolean {
-                            val fieldName = f.name.toLowerCase(Locale.ROOT)
-
-                            // Remove field name that can't be serialized in Request
-                            return skipList.contains(fieldName)
-                        }
-
-                        override fun shouldSkipClass(aClass: Class<*>?): Boolean {
-                            return false
-                        }
-                    })
                     .registerTypeAdapter(paramsListType, paramsSerializer)
                     .disableHtmlEscaping()
                     .create()
