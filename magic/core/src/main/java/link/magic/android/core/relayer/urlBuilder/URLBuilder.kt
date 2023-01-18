@@ -1,5 +1,6 @@
 package link.magic.android.core.relayer.urlBuilder
 import android.util.Base64
+import androidx.annotation.Keep
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import link.magic.android.EthNetwork
@@ -13,6 +14,7 @@ import link.magic.android.core.relayer.urlBuilder.network.NetworkBaseOptions
  *
  * Uri from Android encodes every component of the Url, which is not ideal
  */
+@Keep
 class URLBuilder private constructor(var options: BaseOptions, val apiKey: String, private val productType: ProductType){
 
     private val gson = Gson()

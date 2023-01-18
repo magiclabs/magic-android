@@ -89,16 +89,18 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
     override fun <T : Response<*>> sendAsync(
             requestPayload: Request<*, *>, responseType: Class<T>): CompletableFuture<T> {
         /* Overwrite id with random Long number */
-        requestPayload.id = Number().generateRandomId()
-
         val result = CompletableFuture<T>()
+        val rpcPayload = RequestForSerialization(requestPayload.method, requestPayload.params, Number().generateRandomId())
+        val request = RequestData(rpcPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams);
 
         // Serialize class to Json Object
         val message =  GsonExtension()
-                .serializeSkipFields("responsetype", "web3jservice")
-                .toJson(RequestData(requestPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams))
+            .serialize()
+                .toJson(request)
                 .replace("\\n", "")
 
+
+        Log.d("Magic-Message", message);
         if (MagicCore.debugEnabled) {
             Log.d("Magic", "Prepare Message: $message")
         }
