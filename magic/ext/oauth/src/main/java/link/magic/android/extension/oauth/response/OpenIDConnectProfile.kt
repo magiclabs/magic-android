@@ -1,5 +1,8 @@
 package link.magic.android.extension.oauth.response
 
+import androidx.annotation.Keep
+
+@Keep
 class OpenIDConnectProfile {
     var name: String? = null
     var familyName: String? = null
