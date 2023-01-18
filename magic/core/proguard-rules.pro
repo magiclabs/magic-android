@@ -20,5 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# Add web3j classes here to prevent obfuscation during JSON serialization
 -keep public class org.web3j.protocol.core.Response
 -keep public class org.web3j.protocol.core.Request
