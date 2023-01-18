@@ -88,9 +88,12 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
      */
     override fun <T : Response<*>> sendAsync(
             requestPayload: Request<*, *>, responseType: Class<T>): CompletableFuture<T> {
+
         /* Overwrite id with random Long number */
+        val newRandomId = Number().generateRandomId()
+
         val result = CompletableFuture<T>()
-        val rpcPayload = RequestForSerialization(requestPayload.method, requestPayload.params, Number().generateRandomId())
+        val rpcPayload = RequestForSerialization(requestPayload.method, requestPayload.params, newRandomId)
         val request = RequestData(rpcPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams);
 
         // Serialize class to Json Object
@@ -99,15 +102,13 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
                 .toJson(request)
                 .replace("\\n", "")
 
-
-        Log.d("Magic-Message", message);
         if (MagicCore.debugEnabled) {
             Log.d("Magic", "Prepare Message: $message")
         }
 
         /* send the promise to webview queue waiting for dispatch.
         When the payload result comes back the handler will resolve the result asynchronously */
-        overlay.enqueue(message, requestPayload.id, fun (responseString: String) {
+        overlay.enqueue(message, newRandomId, fun (responseString: String) {
                     val data = Gson().fromJson(responseString, responseType)
                     result.complete(data)
                 })
