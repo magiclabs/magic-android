@@ -36,6 +36,13 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
                 val request = Request(Method.MAGIC_AUTH_UPDATE_EMAIL.toString(), listOf(configuration), provider, UpdateEmailResponse::class.java)
                 return provider.sendAsync(request, UpdateEmailResponse::class.java)
         }
+        
+        fun showSettings(context: Context): CompletableFuture<ShowMfaResponse> {
+                provider.context = context
+                val request = Request(Method.MAGIC_AUTH_SETTINGS.toString(), emptyList<String>(), provider, ShowMfaResponse::class.java)
+                return provider.sendAsync(request, ShowMfaResponse::class.java)
+        }
+
         fun logout(context: Context): CompletableFuture<LogoutResponse> {
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_LOGOUT.toString(), emptyList<String>(), provider, LogoutResponse::class.java)
