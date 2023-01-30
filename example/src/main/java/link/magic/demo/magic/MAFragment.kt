@@ -54,6 +54,10 @@ class MAFragment: Fragment() {
         isLoggedInButton.setOnClickListener {
             isLoggedIn(it)
         }
+        val showMfaButton : Button = inflatedView.findViewById(R.id.show_mfa)
+        showMfaButton.setOnClickListener {
+            showMFA()
+        }
         val logoutButton : Button = inflatedView.findViewById(R.id.logout)
         logoutButton.setOnClickListener {
             logout(it)
@@ -127,6 +131,22 @@ class MAFragment: Fragment() {
             }
             if (response != null && response.result) {
                 tabActivity.toastAsync("You're Logged In")
+            }
+        }
+    }
+
+    /**
+     * Show MFA
+     */
+    private fun showMFA() {
+        val result = (magic as Magic).user.showSettings()
+        result.whenComplete { isShowMfaResponse: ShowMfaResponse?, error: Throwable? ->
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (isShowMfaResponse != null) {
+                var resp = isShowMfaResponse.result
+                tabActivity.toastAsync("Showing MFA response: $resp ")
             }
         }
     }
