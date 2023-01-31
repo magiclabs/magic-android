@@ -67,7 +67,7 @@ class MAFragment: Fragment() {
      */
     fun getIdToken(v: View) {
         val configuration = GetIdTokenConfiguration(lifespan = 900)
-        val completable = magic.user.getIdToken(configuration)
+        val completable = magic.user.getIdToken(this.requireActivity(), configuration)
         completable.whenComplete { response: GetIdTokenResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
@@ -83,7 +83,7 @@ class MAFragment: Fragment() {
      */
     fun generateIdToken(v: View) {
         val configuration = GenerateIdTokenConfiguration(lifespan = 3600, attachment = "none")
-        val completable = magic.user.generateIdToken(configuration)
+        val completable = magic.user.generateIdToken(this.requireActivity(), configuration)
         completable.whenComplete { response: GenerateIdTokenResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
@@ -95,7 +95,7 @@ class MAFragment: Fragment() {
     }
 
     fun getMetadata(v: View) {
-        val completable = magic.user.getMetadata()
+        val completable = magic.user.getMetadata(this.requireActivity())
         completable.whenComplete { response: GetMetadataResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
@@ -120,7 +120,7 @@ class MAFragment: Fragment() {
     }
 
     fun isLoggedIn(v: View) {
-        val completable = magic.user.isLoggedIn()
+        val completable = magic.user.isLoggedIn(this.requireActivity())
         completable.whenComplete { response: IsLoggedInResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
@@ -134,7 +134,7 @@ class MAFragment: Fragment() {
 
     fun logout(v: View) {
         tabActivity.toastAsync("Logging out...")
-        val completable = magic.user.logout()
+        val completable = magic.user.logout(this.requireActivity())
         completable.whenComplete { response: LogoutResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
