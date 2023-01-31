@@ -17,7 +17,7 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
     private val gson = Gson()
 
     fun signTypedDataLegacy(context: Context, address: String?, data: List<EIP712TypedDataLegacyFields>): Request<*, SignTypedData> {
-        provider.overlay.setContext(context)
+        provider.context = context
         return Request(
                 "eth_signTypedData",
                 listOf(data, address),
@@ -26,7 +26,7 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
     }
 
     fun signTypedDataLegacy(context: Context, address: String?, jsonData: String): Request<*, SignTypedData>{
-        provider.overlay.setContext(context)
+        provider.context = context
         val legacyTypedDataList: Type = object: TypeToken<List<EIP712TypedDataLegacyFields>?>() {}.type
         val data = gson.fromJson<List<EIP712TypedDataLegacyFields>>(jsonData, legacyTypedDataList)
         return Request(
@@ -37,7 +37,7 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
     }
 
     fun signTypedData(context: Context, address: String?, jsonData: String): Request<*, SignTypedData>  {
-        provider.overlay.setContext(context)
+        provider.context = context
         return Request(
                 "eth_signTypedData_v3",
                 listOf(address, gson.fromJson(jsonData, EIP712TypedData::class.java)),
@@ -47,7 +47,7 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
 
 
     fun signTypedDataV4(context: Context, address: String?, jsonData: String): Request<*, SignTypedData> {
-        provider.overlay.setContext(context)
+        provider.context = context
         return Request(
                 "eth_signTypedData_v4",
                 listOf(address, gson.fromJson(jsonData, EIP712TypedData::class.java)),

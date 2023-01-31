@@ -1,5 +1,6 @@
 package link.magic.android.extension.oidc
 
+import android.content.Context
 import link.magic.android.Magic
 import link.magic.android.core.provider.RpcProvider
 import link.magic.android.modules.auth.response.DIDToken
@@ -23,7 +24,8 @@ class OidcExtension(rpcProvider: RpcProvider): BaseModule(rpcProvider) {
         }
     }
 
-    fun loginWithOIDC(configuration: OpenIdConfiguration): CompletableFuture<DIDToken> {
+    fun loginWithOIDC(context: Context, configuration: OpenIdConfiguration): CompletableFuture<DIDToken> {
+        provider.context = context
         val request = Request(Method.MAGIC_AUTH_LOGIN_WITH_OIDC.toString(), listOf(configuration), provider, DIDToken::class.java)
         return provider.sendAsync(request, DIDToken::class.java)
     }
