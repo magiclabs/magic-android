@@ -199,20 +199,47 @@ class EthFragment: Fragment() {
                 EIP712TypedDataLegacyFields("uint32", "Here is a number", "90210")
         )
 
-        val signature = (magic as MagicCore).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, list).send()
-        mainTabActivity.toastAsync("Signature: " + signature.result)
+        val signature = (magic as MagicCore).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, list).sendAsync()
+        signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
+            if (error != null) {
+                mainTabActivity.toastAsync("Error: $error")
+            }
+            if (sig != null && !sig.hasError()) {
+                mainTabActivity.toastAsync("Signature: " + sig.result)
+            } else {
+                Log.d("Error", "Something went wrong")
+            }
+        }
     }
 
     fun signTypedDataLegacyJson(v: View) {
         val jsonString = "[{\"type\":\"string\",\"name\":\"Hello from Magic\",\"value\":\"This message will be signed by you\"},{\"type\":\"uint32\",\"name\":\"Here is a number\",\"value\":\"90210\"}]"
-        val signature = (magic as MagicCore).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, jsonString).send()
-        mainTabActivity.toastAsync("Signature: " + signature.result)
+        val signature = (magic as MagicCore).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, jsonString).sendAsync()
+        signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
+            if (error != null) {
+                mainTabActivity.toastAsync("Error: $error")
+            }
+            if (sig != null && !sig.hasError()) {
+                mainTabActivity.toastAsync("Signature: " + sig.result)
+            } else {
+                Log.d("Error", "Something went wrong")
+            }
+        }
     }
 
     fun signTypedData(v: View) {
         val jsonString = "{\"types\":{\"EIP712Domain\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"version\",\"type\":\"string\"},{\"name\":\"verifyingContract\",\"type\":\"address\"}],\"Order\":[{\"name\":\"makerAddress\",\"type\":\"address\"},{\"name\":\"takerAddress\",\"type\":\"address\"},{\"name\":\"feeRecipientAddress\",\"type\":\"address\"},{\"name\":\"senderAddress\",\"type\":\"address\"},{\"name\":\"makerAssetAmount\",\"type\":\"uint256\"},{\"name\":\"takerAssetAmount\",\"type\":\"uint256\"},{\"name\":\"makerFee\",\"type\":\"uint256\"},{\"name\":\"takerFee\",\"type\":\"uint256\"},{\"name\":\"expirationTimeSeconds\",\"type\":\"uint256\"},{\"name\":\"salt\",\"type\":\"uint256\"},{\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"name\":\"takerAssetData\",\"type\":\"bytes\"}]},\"domain\":{\"name\":\"0x Protocol\",\"version\":\"2\",\"verifyingContract\":\"0x35dd2932454449b14cee11a94d3674a936d5d7b2\"},\"message\":{\"exchangeAddress\":\"0x35dd2932454449b14cee11a94d3674a936d5d7b2\",\"senderAddress\":\"0x0000000000000000000000000000000000000000\",\"makerAddress\":\"0x338be8514c1397e8f3806054e088b2daf1071fcd\",\"takerAddress\":\"0x0000000000000000000000000000000000000000\",\"makerFee\":\"0\",\"takerFee\":\"0\",\"makerAssetAmount\":\"97500000000000\",\"takerAssetAmount\":\"15000000000000000\",\"makerAssetData\":\"0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c\",\"takerAssetData\":\"0xf47261b00000000000000000000000006ff6c0ff1d68b964901f986d4c9fa3ac68346570\",\"salt\":\"1553722433685\",\"feeRecipientAddress\":\"0xa258b39954cef5cb142fd567a46cddb31a670124\",\"expirationTimeSeconds\":\"1553808833\"},\"primaryType\":\"Order\"}"
-        val signature = (magic as MagicCore).web3jSigExt.signTypedData(this.requireActivity(), account, jsonString).send()
-        mainTabActivity.toastAsync("Signature: " + signature.result)
+        val signature = (magic as MagicCore).web3jSigExt.signTypedData(this.requireActivity(), account, jsonString).sendAsync()
+        signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
+            if (error != null) {
+                mainTabActivity.toastAsync("Error: $error")
+            }
+            if (sig != null && !sig.hasError()) {
+                mainTabActivity.toastAsync("Signature: " + sig.result)
+            } else {
+                Log.d("Error", "Something went wrong")
+            }
+        }
     }
 
     fun signTypedDataV4(v: View) {
@@ -228,7 +255,6 @@ class EthFragment: Fragment() {
                 Log.d("Error", "Something went wrong")
             }
         }
-
     }
 
     /**
@@ -243,8 +269,17 @@ class EthFragment: Fragment() {
                     web3j,
                     account?.let { MagicTxnManager(web3j, it) },
                     gasProvider
-            ).send()
-            mainTabActivity.toastAsync("Deploy to" + contract.contractAddress)
+            ).sendAsync()
+            contract.whenComplete { storage: SimpleStorage?, error: Throwable? ->
+                if (error != null) {
+                    mainTabActivity.toastAsync("Error: $error")
+                }
+                if (storage != null) {
+                    mainTabActivity.toastAsync("Deploy to: " + storage.contractAddress)
+                } else {
+                    Log.d("Error", "Something went wrong")
+                }
+            }
         } catch (e: Exception) {
             Log.e("E", "error", e)
         }
@@ -276,7 +311,7 @@ class EthFragment: Fragment() {
             }
             Log.d("MagicUnity", (code.isNotEmpty()).toString());
             if (contract.isValid) {
-                val ethCall = contract.num().send()
+                val ethCall = contract.num().sendAsync()
                 mainTabActivity.toastAsync(ethCall.toString())
             } else {
                 throw Error("contract not valid")
@@ -297,7 +332,7 @@ class EthFragment: Fragment() {
             val contract = SimpleStorage.load("0x6a2d321a3679b1b3c8a19b84e41abd11763a8ab5", web3j, account?.let { MagicTxnManager(web3j, it) }, gasProvider)
             mainTabActivity.toastAsync(contract.isValid.toString())
             if (contract.isValid) {
-                val ethCall = contract.set(BigInteger("100")).send()
+                val ethCall = contract.set(BigInteger("100")).sendAsync()
                 mainTabActivity.toastAsync(ethCall.toString())
             } else {
                 throw Error("contract not valid")
