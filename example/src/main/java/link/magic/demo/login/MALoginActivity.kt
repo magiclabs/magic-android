@@ -91,7 +91,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
 
     private fun isLoggedIn() {
         toastAsync("Logging in...")
-        val result = (magic as Magic).user.isLoggedIn()
+        val result = (magic as Magic).user.isLoggedIn(this)
         result.whenComplete { isLoggedInResponse: IsLoggedInResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
@@ -204,7 +204,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         val providerId = findViewById<EditText>(R.id.provider_id_text)
         val jwt = findViewById<EditText>(R.id.jwt_text)
         val configuration = OpenIdConfiguration(jwt.text.toString(), providerId.text.toString())
-        val did = (magic as Magic).openid.loginWithOIDC(configuration)
+        val did = (magic as Magic).openid.loginWithOIDC(this, configuration)
         did.whenComplete { response: DIDToken?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
