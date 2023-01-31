@@ -1,5 +1,6 @@
 package link.magic.android.modules.web3j.signTypedData
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import link.magic.android.core.provider.RpcProvider
@@ -15,7 +16,8 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
 
     private val gson = Gson()
 
-    fun signTypedDataLegacy(address: String?, data: List<EIP712TypedDataLegacyFields>): Request<*, SignTypedData> {
+    fun signTypedDataLegacy(context: Context, address: String?, data: List<EIP712TypedDataLegacyFields>): Request<*, SignTypedData> {
+        provider.overlay.setContext(context)
         return Request(
                 "eth_signTypedData",
                 listOf(data, address),
@@ -23,7 +25,8 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
                 SignTypedData::class.java)
     }
 
-    fun signTypedDataLegacy(address: String?, jsonData: String): Request<*, SignTypedData>{
+    fun signTypedDataLegacy(context: Context, address: String?, jsonData: String): Request<*, SignTypedData>{
+        provider.overlay.setContext(context)
         val legacyTypedDataList: Type = object: TypeToken<List<EIP712TypedDataLegacyFields>?>() {}.type
         val data = gson.fromJson<List<EIP712TypedDataLegacyFields>>(jsonData, legacyTypedDataList)
         return Request(
@@ -33,7 +36,8 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
                 SignTypedData::class.java)
     }
 
-    fun signTypedData(address: String?, jsonData: String): Request<*, SignTypedData>  {
+    fun signTypedData(context: Context, address: String?, jsonData: String): Request<*, SignTypedData>  {
+        provider.overlay.setContext(context)
         return Request(
                 "eth_signTypedData_v3",
                 listOf(address, gson.fromJson(jsonData, EIP712TypedData::class.java)),
@@ -42,7 +46,8 @@ class SignTypedDataExtension(private val rpcProvider: RpcProvider): BaseModule(r
     }
 
 
-    fun signTypedDataV4(address: String?, jsonData: String): Request<*, SignTypedData> {
+    fun signTypedDataV4(context: Context, address: String?, jsonData: String): Request<*, SignTypedData> {
+        provider.overlay.setContext(context)
         return Request(
                 "eth_signTypedData_v4",
                 listOf(address, gson.fromJson(jsonData, EIP712TypedData::class.java)),
