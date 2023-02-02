@@ -3,6 +3,7 @@ package link.magic.android.core.relayer
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.MutableContextWrapper
 import android.net.Uri
@@ -138,10 +139,14 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
      */
     private fun showOverlay() {
         runOnUiThread {
-            webView.visibility = View.VISIBLE
-            webViewDialog = WebViewDialog(it, webView)
+            if (it is Activity) {
+                webView.visibility = View.VISIBLE
+                webViewDialog = WebViewDialog(it, webView)
 
-            webViewDialog?.show()
+                webViewDialog?.show()
+            } else {
+                Log.d("Magic", "showOverlay failed, Please pass Activity Context to API Call")
+            }
         }
     }
 
