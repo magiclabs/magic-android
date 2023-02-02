@@ -3,7 +3,6 @@ package link.magic.android.core.relayer
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.MutableContextWrapper
 import android.net.Uri
