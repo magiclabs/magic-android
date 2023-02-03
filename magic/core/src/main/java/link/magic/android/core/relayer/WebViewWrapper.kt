@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.webkit.WebMessageCompat
 import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
@@ -38,6 +37,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
 
     internal val mMutableContext = MutableContextWrapper(context)
     private val webView: WebView = WebView(mMutableContext)
+    private var webViewDialog: WebViewDialog? = null
 
     private var overlayReady = false
     private val queue: MutableList<String> = ArrayList()
@@ -138,11 +138,14 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
      */
     private fun showOverlay() {
         runOnUiThread {
-            val ctx = it as Activity
-            webView.visibility = View.VISIBLE
-            ctx.addContentView(webView, RelativeLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT))
+            if (it is Activity) {
+                webView.visibility = View.VISIBLE
+                webViewDialog = WebViewDialog(it, webView)
+
+                webViewDialog?.show()
+            } else {
+                Log.d("Magic", "showOverlay failed, Please pass Activity Context to API Call")
+            }
         }
     }
 
@@ -153,6 +156,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 vg.removeView(webView)
             }
             webView.visibility = View.INVISIBLE
+            webViewDialog?.dismiss()
         }
     }
 
