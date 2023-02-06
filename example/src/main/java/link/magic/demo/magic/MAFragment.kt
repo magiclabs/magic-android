@@ -139,7 +139,7 @@ class MAFragment: Fragment() {
      * Show MFA
      */
     private fun showMFA() {
-        val result = (magic as Magic).user.showSettings()
+        val result = (magic as Magic).user.showSettings(this.requireContext())
         result.whenComplete { isShowMfaResponse: ShowMfaResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
