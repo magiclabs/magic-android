@@ -28,19 +28,6 @@ class URLBuilder private constructor(var options: BaseOptions, val apiKey: Strin
 
             // core options
             val jsonObject = gson.toJsonTree(options).asJsonObject
-
-            // extension options
-            val extObj = JsonObject()
-
-            // MC Ext
-            if (productType == ProductType.MC) {
-                val connectObj = JsonObject()
-                connectObj.addProperty("mc", true)
-                extObj.add("connect", connectObj)
-            }
-
-            jsonObject.add("ext", extObj)
-
             val paramsInBytes = gson.toJson(jsonObject).replace("\\", "")
 
             return Base64.encodeToString(paramsInBytes.toByteArray(), Base64.DEFAULT)

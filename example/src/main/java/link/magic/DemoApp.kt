@@ -11,8 +11,8 @@ class DemoApp : Application() {
     lateinit var magic: Any
     override fun onCreate() {
 
-//        magic = Magic(this, "YOUR_MC_PUBLISHABLE_KEY", ethNetwork = EthNetwork.Goerli)
-        magic = MagicConnect(this, "YOUR_MC_PUBLISHABLE_KEY", ethNetwork = EthNetwork.Goerli)
+        magic = Magic(this, "pk_live_D651FC5A1D34D0D5", ethNetwork = EthNetwork.Goerli)
+        magic = MagicConnect(this, "pk_live_D651FC5A1D34D0D5", ethNetwork = EthNetwork.Goerli)
         debugEnabled = true
         super.onCreate()
     }

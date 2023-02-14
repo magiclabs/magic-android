@@ -53,6 +53,10 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         openIdLoginButton.setOnClickListener {
             loginWithOpenId(it)
         }
+        val showMagicConnectUI : Button = findViewById<Button>(R.id.mc_login_btn)
+        showMagicConnectUI.setOnClickListener {
+            showMagicConnectLogin(it)
+        }
 
         /**
          * Provider Spinner
@@ -216,6 +220,13 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
                 Log.d("login", "OpenID Not Logged in")
             }
         }
+    }
+
+    /**
+     * Show Magic Connect Login UI
+     */
+    private fun showMagicConnectLogin(v: View) {
+        (magic as Magic).wallet.connectWithUI()
     }
 
     override fun onDestroy() {

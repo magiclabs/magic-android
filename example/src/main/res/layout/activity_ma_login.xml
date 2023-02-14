@@ -99,4 +99,31 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@string/openid_login" />
+        <LinearLayout
+            android:id="@+id/mc_login_container"
+            android:layout_below="@+id/openId_login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="120dp"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:background="@drawable/border_shape"
+            android:layout_centerInParent="true">
+                <Button
+                    android:id="@+id/mc_login_btn"
+                    android:layout_below="@+id/mc_login_subtext"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/magic_connect"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/mc_login_subtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MC API Keys Only"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+        </LinearLayout>
 </RelativeLayout>

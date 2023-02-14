@@ -1,6 +1,7 @@
 package link.magic.android.modules.user
 
 import android.content.Context
+import android.util.Log
 import java.util.concurrent.CompletableFuture
 import link.magic.android.core.provider.RpcProvider
 import link.magic.android.modules.BaseModule
@@ -11,7 +12,11 @@ import link.magic.android.modules.user.response.*
 import org.web3j.protocol.core.Request
 
 class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
+        /**
+         * These methods only works with Magic Auth Api Keys
+        */
         fun getIdToken(context: Context, configuration: GetIdTokenConfiguration?): CompletableFuture<GetIdTokenResponse> {
+                Log.w("Magic SDK", "This method only works with Magic Auth Api Keys")
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_GET_ID_TOKEN.toString(), listOf(configuration), provider, GetIdTokenResponse::class.java)
                 return provider.sendAsync(request, GetIdTokenResponse::class.java)

@@ -5,6 +5,7 @@ import link.magic.android.core.relayer.urlBuilder.network.CustomNodeConfiguratio
 import link.magic.android.modules.auth.AuthModule
 import link.magic.android.modules.user.UserModule
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
+import link.magic.android.modules.connect.WalletModule
 
 class Magic private constructor(context: Context, urlBuilder: URLBuilder): MagicCore(
     context, urlBuilder
@@ -14,6 +15,12 @@ class Magic private constructor(context: Context, urlBuilder: URLBuilder): Magic
      * status, generating cryptographically-secure ID tokens, and more.
      */
     val user = UserModule(rpcProvider)
+
+    /**
+     * Contains methods previously under the `ConnectModule` for MC, including
+     * login, show wallet UI, request user info, and more.
+     */
+    val wallet = WalletModule(rpcProvider)
 
     /**
      * Contains methods for starting a Magic SDK authentication flow.
