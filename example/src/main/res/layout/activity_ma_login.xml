@@ -27,10 +27,19 @@
             android:text="@string/login" />
 
         <Button
-            android:id="@+id/email_otp_login_btn"
+            android:id="@+id/recover_account_btn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email_login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/recover_account" />
+
+        <Button
+            android:id="@+id/email_otp_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recover_account_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@string/email_otp_login" />

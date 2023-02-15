@@ -2,6 +2,7 @@
     <string name="app_name">Magic Android Demo</string>
     <string name="phone_hint">Enter your phone</string>
     <string name="login">Email Login</string>
+    <string name="recover_account">Recover Account</string>
     <string name="email_otp_login">Email OTP Login</string>
     <string name="get_address">Get Address</string>
     <string name="network_id">Network ID</string>
