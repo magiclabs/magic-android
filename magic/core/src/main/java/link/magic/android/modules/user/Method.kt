@@ -8,7 +8,8 @@ enum class Method {
     MAGIC_AUTH_SETTINGS,
     MAGIC_AUTH_LOGOUT,
     MAGIC_AUTH_UPDATE_EMAIL,
-    MAGIC_AUTH_UPDATE_PHONE_NUMBER;
+    MAGIC_AUTH_UPDATE_PHONE_NUMBER,
+    MAGIC_AUTH_RECOVER_ACCOUNT;
 
     override fun toString(): String {
         return name.lowercase()

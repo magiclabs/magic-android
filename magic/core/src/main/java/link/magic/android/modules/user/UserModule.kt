@@ -53,4 +53,10 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
                 val request = Request(Method.MAGIC_AUTH_UPDATE_PHONE_NUMBER.toString(), emptyList<String>(), provider, UpdatePhoneNumberResponse::class.java)
                 return provider.sendAsync(request, UpdatePhoneNumberResponse::class.java)
         }
+
+        fun recoverAccount(context: Context): CompletableFuture<RecoverAccountResponse> {
+                provider.context = context
+                val request = Request(Method.MAGIC_AUTH_RECOVER_ACCOUNT.toString(), emptyList<String>(), provider, RecoverAccountResponse::class.java)
+                return provider.sendAsync(request, RecoverAccountResponse::class.java)
+        }
 }
