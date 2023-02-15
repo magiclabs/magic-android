@@ -1,6 +1,5 @@
 package link.magic.demo.magic
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,6 +48,10 @@ class MAFragment: Fragment() {
         val updateEmailButton : Button = inflatedView.findViewById(R.id.update_email)
         updateEmailButton.setOnClickListener {
             updateEmail(it)
+        }
+        val updateSmsButton : Button = inflatedView.findViewById(R.id.update_sms)
+        updateSmsButton.setOnClickListener {
+            updateSMS(it)
         }
         val isLoggedInButton : Button = inflatedView.findViewById(R.id.is_logged_in)
         isLoggedInButton.setOnClickListener {
@@ -119,6 +122,18 @@ class MAFragment: Fragment() {
             }
             if (response != null) {
                 Log.d("result-token", response.result.toString())
+            }
+        }
+    }
+
+    fun updateSMS(v: View) {
+        val completable = magic.user.updatePhoneNumber(this.requireActivity())
+        completable.whenComplete { response: UpdatePhoneNumberResponse?, error: Throwable? ->
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (response != null) {
+                Log.d("Update phone number result", response.result.toString())
             }
         }
     }
