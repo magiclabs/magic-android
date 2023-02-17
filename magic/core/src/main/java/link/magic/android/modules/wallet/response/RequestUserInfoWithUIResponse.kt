@@ -4,7 +4,7 @@ import org.web3j.protocol.core.Response
 import androidx.annotation.Keep
 
 @Keep
-class UserInfoResponse: Response<UserInfo>()
+class RequestUserInfoWithUIResponse: Response<UserInfo>()
 
 @Keep
 class UserInfo {

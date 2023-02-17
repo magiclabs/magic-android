@@ -20,9 +20,9 @@ class WalletModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         val request = Request(Method.MC_WALLET.toString(), emptyList<String>(), provider, ShowWalletResponse::class.java)
         return provider.sendAsync(request, ShowWalletResponse::class.java)
     }
-    fun requestUserInfoWithUI(configuration: RequestUserInfoWithUIConfiguration?): CompletableFuture<UserInfoResponse> {
-        val request = Request(Method.MC_REQUEST_USER_INFO.toString(), ( if (configuration != null) listOf(configuration) else emptyList<String>()), provider, UserInfoResponse::class.java)
-        return provider.sendAsync(request, UserInfoResponse::class.java)
+    fun requestUserInfoWithUI(configuration: RequestUserInfoWithUIConfiguration?): CompletableFuture<RequestUserInfoWithUIResponse> {
+        val request = Request(Method.MC_REQUEST_USER_INFO.toString(), ( if (configuration != null) listOf(configuration) else emptyList<String>()), provider, RequestUserInfoWithUIResponse::class.java)
+        return provider.sendAsync(request, RequestUserInfoWithUIResponse::class.java)
     }
     fun disconnect(): CompletableFuture<DisconnectResponse> {
         val request = Request(Method.MC_DISCONNECT.toString(), emptyList<String>(), provider, DisconnectResponse::class.java)
