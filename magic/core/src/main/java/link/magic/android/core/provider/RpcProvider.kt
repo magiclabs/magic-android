@@ -10,7 +10,7 @@ import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.utils.GsonExtension
 import link.magic.android.utils.Number
 import io.reactivex.Flowable
-import link.magic.android.MagicCore
+import link.magic.android.Magic
 import org.web3j.protocol.Web3jService
 import org.web3j.protocol.core.BatchRequest
 import org.web3j.protocol.core.BatchResponse
@@ -102,7 +102,7 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
                 .toJson(request)
                 .replace("\\n", "")
 
-        if (MagicCore.debugEnabled) {
+        if (Magic.debugEnabled) {
             Log.d("Magic", "Prepare Message: $message")
         }
 
