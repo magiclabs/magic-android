@@ -35,6 +35,7 @@
     <string name="Contract_write">Contract Write</string>
     <string name="social_login">Social Login</string>
     <string name="openid_login">OpenID Login</string>
+    <string name="mc_login">Magic Connect Login</string>
     <string name="provider_id_hint">Please enter provider Id</string>
     <string name="jwt_hint">Please enter JWT</string>
     <string name="sms_login">SMS Login</string>

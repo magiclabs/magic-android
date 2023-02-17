@@ -20,6 +20,7 @@ import link.magic.android.modules.auth.response.DIDToken
 import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfiguration
 import link.magic.android.modules.user.response.IsLoggedInResponse
 import link.magic.android.modules.user.response.RecoverAccountResponse
+import link.magic.android.modules.wallet.response.ConnectWithUIResponse
 import link.magic.demo.R
 import link.magic.demo.UtilActivity
 
@@ -58,6 +59,11 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         val openIdLoginButton : Button = findViewById<Button>(R.id.openId_login_btn)
         openIdLoginButton.setOnClickListener {
             loginWithOpenId(it)
+        }
+
+        val mcLoginButton : Button = findViewById<Button>(R.id.mc_login_btn)
+        mcLoginButton.setOnClickListener {
+            mcLogin(it)
         }
 
         /**
@@ -243,6 +249,26 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
                 } else {
                     toastAsync("RecoverAccount error, consider using a different email")
                 }
+            }
+        }
+    }
+    
+    /*
+     * Magic Connect Login
+    */
+    private fun mcLogin(v: View) {
+        val accounts = (magic as Magic).wallet.connectWithUI()
+        accounts.whenComplete { response: ConnectWithUIResponse?, error: Throwable? ->
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (response != null && !response.hasError()) {
+                response.result?.let { Log.d("Your Public Address is:", it.first()) }
+                startTabActivity()
+            } else {
+                response?.result?.let { Log.d("Your Public Address is:", it.first()) }
+                Log.i("mcLogin RESPONSE", "Response is: ${response.toString()}")
+                Log.d("MC Login", "Magic Connect Not logged in")
             }
         }
     }

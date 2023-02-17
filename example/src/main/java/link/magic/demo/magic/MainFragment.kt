@@ -16,7 +16,7 @@ import link.magic.demo.tabs.MainTabActivity
 import link.magic.demo.R
 
 
-class MAFragment: Fragment() {
+class MainFragment: Fragment() {
 
     private lateinit var tabActivity: MainTabActivity
     private lateinit var magic: Magic
