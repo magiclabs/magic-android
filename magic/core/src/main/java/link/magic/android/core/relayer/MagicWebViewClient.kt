@@ -13,7 +13,7 @@ import android.widget.Toast
 
 internal class MagicWebViewClient : WebViewClient() {
 
-    // Tho starting activity call in each if branch looks the same,
+    // The starting activity call in each if-branch looks the same,
     // keeping this structure just in case, we need tweak according to different deeplink url format
     // in the future
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
