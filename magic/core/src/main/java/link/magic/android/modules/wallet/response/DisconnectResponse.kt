@@ -1,4 +1,4 @@
-package link.magic.android.modules.connect.response
+package link.magic.android.modules.wallet.response
 
 import org.web3j.protocol.core.Response
 

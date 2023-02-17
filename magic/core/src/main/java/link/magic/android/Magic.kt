@@ -6,6 +6,7 @@ import link.magic.android.core.relayer.urlBuilder.network.CustomNodeConfiguratio
 import link.magic.android.modules.auth.AuthModule
 import link.magic.android.modules.user.UserModule
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
+import link.magic.android.modules.wallet.WalletModule
 import link.magic.android.modules.web3j.signTypedData.SignTypedDataExtension
 import java.util.*
 
@@ -37,6 +38,11 @@ class Magic private constructor(applicationContext: Context, urlBuilder: URLBuil
      * Contains methods for starting a Magic SDK authentication flow.
      */
     val auth = AuthModule(rpcProvider)
+
+    /**
+     * Contains methods for starting a Magic Connect flow.
+     */
+    val wallet = WalletModule(rpcProvider)
 
     // Default initializer
     constructor(ctx:Context, apiKey: String, locale: String = defaultLocale)
