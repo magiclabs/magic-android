@@ -128,12 +128,12 @@ class MAFragment: Fragment() {
 
     fun updateSMS(v: View) {
         val completable = magic.user.updatePhoneNumber(this.requireActivity())
-        completable.whenComplete { response: UpdatePhoneNumberResponse?, error: Throwable? ->
+        completable.whenComplete { updatePhoneNumberResponse: UpdatePhoneNumberResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
             }
-            if (response != null) {
-                Log.d("Update phone number result", response.result.toString())
+            if (updatePhoneNumberResponse != null) {
+                Log.d("Update phone number result", updatePhoneNumberResponse.result.toString())
             }
         }
     }
