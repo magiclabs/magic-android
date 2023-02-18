@@ -14,6 +14,7 @@
     <string name="logout">Logout</string>
     <string name="get_metadata">Get Metadata</string>
     <string name="update_email">Update Email</string>
+    <string name="update_sms">Update SMS</string>
     <string name="is_logged_in">Is Logged In</string>
     <string name="show_mfa">Show MFA</string>
     <string name="generate_id_token">Generate ID Token</string>

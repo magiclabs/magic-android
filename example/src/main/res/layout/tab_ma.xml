@@ -61,10 +61,19 @@
             android:text="@string/update_email" />
 
         <Button
-            android:id="@+id/is_logged_in"
+            android:id="@+id/update_sms"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/update_email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/update_sms" />
+
+        <Button
+            android:id="@+id/is_logged_in"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/update_sms"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@string/is_logged_in" />

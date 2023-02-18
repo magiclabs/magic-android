@@ -48,4 +48,9 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
                 val request = Request(Method.MAGIC_AUTH_LOGOUT.toString(), emptyList<String>(), provider, LogoutResponse::class.java)
                 return provider.sendAsync(request, LogoutResponse::class.java)
         }
+        fun updatePhoneNumber(context: Context): CompletableFuture<UpdatePhoneNumberResponse> {
+                provider.context = context
+                val request = Request(Method.MAGIC_AUTH_UPDATE_PHONE_NUMBER.toString(), emptyList<String>(), provider, UpdatePhoneNumberResponse::class.java)
+                return provider.sendAsync(request, UpdatePhoneNumberResponse::class.java)
+        }
 }
