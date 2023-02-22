@@ -17,6 +17,7 @@ import link.magic.android.modules.auth.requestConfiguration.LoginWithEmailOTPCon
 import link.magic.android.modules.auth.requestConfiguration.LoginWithMagicLinkConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithSMSConfiguration
 import link.magic.android.modules.auth.response.DIDToken
+import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfiguration
 import link.magic.android.modules.user.response.IsLoggedInResponse
 import link.magic.android.modules.user.response.RecoverAccountResponse
 import link.magic.demo.R
@@ -227,14 +228,21 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
      * Recover Account
      */
     private fun recoverAccount(v: View) {
-        val result = (magic as Magic).user.recoverAccount(this)
+        val email = findViewById<EditText>(R.id.recovery_email_input)
+        val configuration = RecoverAccountConfiguration(email = email.text.toString())
+        val result = (magic as Magic).user.recoverAccount(this, configuration)
         result.whenComplete { response: RecoverAccountResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
             }
             if (response != null) {
-                var resp = response.result
-                toastAsync("RecoverAccount response: $resp ")
+                var result = response.result
+                Log.d("recover account resp result", result.toString())
+                if (result != null) {
+                    startTabActivity()
+                } else {
+                    toastAsync("RecoverAccount error, consider using a different email")
+                }
             }
         }
     }

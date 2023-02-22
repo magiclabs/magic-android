@@ -57,7 +57,7 @@ class MAFragment: Fragment() {
         isLoggedInButton.setOnClickListener {
             isLoggedIn(it)
         }
-        val showMfaButton : Button = inflatedView.findViewById(R.id.show_mfa)
+        val showMfaButton : Button = inflatedView.findViewById(R.id.show_settings)
         showMfaButton.setOnClickListener {
             showMFA()
         }
