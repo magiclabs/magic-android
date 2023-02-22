@@ -4,4 +4,4 @@ import androidx.annotation.Keep
 import org.web3j.protocol.core.Response
 
 @Keep
-class ShowMfaResponse: Response<String>()
+class RecoverAccountResponse: Response<Boolean>()

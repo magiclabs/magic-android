@@ -17,7 +17,9 @@ import link.magic.android.modules.auth.requestConfiguration.LoginWithEmailOTPCon
 import link.magic.android.modules.auth.requestConfiguration.LoginWithMagicLinkConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithSMSConfiguration
 import link.magic.android.modules.auth.response.DIDToken
+import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfiguration
 import link.magic.android.modules.user.response.IsLoggedInResponse
+import link.magic.android.modules.user.response.RecoverAccountResponse
 import link.magic.demo.R
 import link.magic.demo.UtilActivity
 
@@ -36,6 +38,10 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         val emailButton: Button = findViewById<Button>(R.id.email_login_btn)
         emailButton.setOnClickListener{
             loginWithEmail(it)
+        }
+        val recoverAccountButton: Button = findViewById<Button>(R.id.recover_account_btn)
+        recoverAccountButton.setOnClickListener{
+            recoverAccount(it)
         }
         val emailOTPButton: Button = findViewById<Button>(R.id.email_otp_login_btn)
         emailOTPButton.setOnClickListener{
@@ -214,6 +220,29 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
 
             } else {
                 Log.d("login", "OpenID Not Logged in")
+            }
+        }
+    }
+
+    /**
+     * Recover Account
+     */
+    private fun recoverAccount(v: View) {
+        val email = findViewById<EditText>(R.id.recovery_email_input)
+        val configuration = RecoverAccountConfiguration(email = email.text.toString())
+        val result = (magic as Magic).user.recoverAccount(this, configuration)
+        result.whenComplete { response: RecoverAccountResponse?, error: Throwable? ->
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (response != null) {
+                var result = response.result
+                Log.d("recover account resp result", result.toString())
+                if (result != null) {
+                    startTabActivity()
+                } else {
+                    toastAsync("RecoverAccount error, consider using a different email")
+                }
             }
         }
     }

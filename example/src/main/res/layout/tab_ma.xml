@@ -79,19 +79,19 @@
             android:text="@string/is_logged_in" />
 
         <Button
-            android:id="@+id/show_mfa"
+            android:id="@+id/show_settings"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/is_logged_in"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="@string/show_mfa" />
+            android:text="@string/show_settings" />
 
         <Button
             android:id="@+id/logout"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/show_mfa"
+            android:layout_below="@id/show_settings"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@string/logout" />

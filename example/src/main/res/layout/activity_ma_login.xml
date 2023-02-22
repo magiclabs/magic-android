@@ -99,4 +99,25 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@string/openid_login" />
+
+        <EditText
+            android:id="@+id/recovery_email_input"
+            android:layout_width="298dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/openId_login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:autofillHints="phone"
+            android:hint="@string/recovery_email_hint"
+            android:inputType="textEmailAddress"
+            android:text="@string/default_email" />
+
+        <Button
+            android:id="@+id/recover_account_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recovery_email_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/recover_account" />
 </RelativeLayout>

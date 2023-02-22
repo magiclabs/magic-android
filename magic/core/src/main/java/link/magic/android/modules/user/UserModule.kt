@@ -6,6 +6,7 @@ import link.magic.android.core.provider.RpcProvider
 import link.magic.android.modules.BaseModule
 import link.magic.android.modules.user.requestConfiguration.GenerateIdTokenConfiguration
 import link.magic.android.modules.user.requestConfiguration.GetIdTokenConfiguration
+import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfiguration
 import link.magic.android.modules.user.requestConfiguration.UpdateEmailConfiguration
 import link.magic.android.modules.user.response.*
 import org.web3j.protocol.core.Request
@@ -52,5 +53,11 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_UPDATE_PHONE_NUMBER.toString(), emptyList<String>(), provider, UpdatePhoneNumberResponse::class.java)
                 return provider.sendAsync(request, UpdatePhoneNumberResponse::class.java)
+        }
+
+        fun recoverAccount(context: Context, configuration: RecoverAccountConfiguration): CompletableFuture<RecoverAccountResponse> {
+                provider.context = context
+                val request = Request(Method.MAGIC_AUTH_RECOVER_ACCOUNT.toString(), listOf(configuration), provider, RecoverAccountResponse::class.java)
+                return provider.sendAsync(request, RecoverAccountResponse::class.java)
         }
 }
