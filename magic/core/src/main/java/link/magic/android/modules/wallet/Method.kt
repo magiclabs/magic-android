@@ -8,7 +8,7 @@ enum class Method {
     MC_GET_WALLET_INFO;
 
     override fun toString(): String {
-        if (name.equals(MC_LOGIN)) {
+        if (name == "MC_LOGIN") {
             return "eth_requestAccounts"
         }
         return name.lowercase()
