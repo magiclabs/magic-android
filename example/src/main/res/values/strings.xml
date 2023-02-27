@@ -43,7 +43,7 @@
     <!-- MC -->
     <string name="magic_connect">Magic Connect</string>
     <string name="mc_disconnect">Disconnect</string>
-    <string name="mc_get_wallet_info">Get Wallet Info</string>
-    <string name="mc_show_wallet">Show Wallet</string>
+    <string name="mc_get_info">Get Wallet Info</string>
+    <string name="mc_show_ui">Show Wallet</string>
     <string name="mc_request_user_info">Request UserInfo</string>
 </resources>
