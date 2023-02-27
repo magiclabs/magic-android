@@ -12,8 +12,8 @@ import link.magic.android.modules.user.requestConfiguration.GenerateIdTokenConfi
 import link.magic.android.modules.user.requestConfiguration.GetIdTokenConfiguration
 import link.magic.android.modules.user.requestConfiguration.UpdateEmailConfiguration
 import link.magic.android.modules.user.response.*
-import link.magic.demo.tabs.MainTabActivity
 import link.magic.demo.R
+import link.magic.demo.tabs.MainTabActivity
 
 
 class MainFragment: Fragment() {

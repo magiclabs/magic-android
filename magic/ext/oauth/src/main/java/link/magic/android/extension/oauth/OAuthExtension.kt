@@ -4,18 +4,17 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import link.magic.android.extension.oauth.customTab.CustomTabUtils
-import java.util.concurrent.CompletableFuture
 import link.magic.android.Magic
 import link.magic.android.core.provider.RpcProvider
 import link.magic.android.extension.oauth.challenge.OAuthChallenge
 import link.magic.android.extension.oauth.customTab.CustomTabMainActivity
 import link.magic.android.extension.oauth.customTab.CustomTabMainActivity.Companion.EXTRA_URL
+import link.magic.android.extension.oauth.customTab.CustomTabUtils
 import link.magic.android.extension.oauth.requestConfiguration.OAuthConfiguration
 import link.magic.android.extension.oauth.response.OAuthResponse
 import link.magic.android.modules.BaseModule
 import org.web3j.protocol.core.Request
-
+import java.util.concurrent.CompletableFuture
 
 
 class OAuthExtension(rpcProvider: RpcProvider): BaseModule(rpcProvider) {

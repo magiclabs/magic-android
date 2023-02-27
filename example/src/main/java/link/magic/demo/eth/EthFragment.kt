@@ -19,8 +19,8 @@ import org.web3j.protocol.admin.methods.response.PersonalSign
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction.createEtherTransaction
 import org.web3j.protocol.core.methods.response.EthAccounts
-import org.web3j.protocol.core.methods.response.EthGetCode
 import org.web3j.protocol.core.methods.response.EthChainId
+import org.web3j.protocol.core.methods.response.EthGetCode
 import org.web3j.protocol.geth.Geth
 import org.web3j.tx.gas.StaticGasProvider
 import org.web3j.utils.Convert

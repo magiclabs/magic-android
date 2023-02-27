@@ -1,7 +1,6 @@
 package link.magic.android.modules.user
 
 import android.content.Context
-import java.util.concurrent.CompletableFuture
 import link.magic.android.core.provider.RpcProvider
 import link.magic.android.modules.BaseModule
 import link.magic.android.modules.user.requestConfiguration.GenerateIdTokenConfiguration
@@ -10,6 +9,7 @@ import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfig
 import link.magic.android.modules.user.requestConfiguration.UpdateEmailConfiguration
 import link.magic.android.modules.user.response.*
 import org.web3j.protocol.core.Request
+import java.util.concurrent.CompletableFuture
 
 class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         fun getIdToken(context: Context, configuration: GetIdTokenConfiguration?): CompletableFuture<GetIdTokenResponse> {

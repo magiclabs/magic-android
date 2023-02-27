@@ -2,10 +2,10 @@ package link.magic.android
 
 import android.content.Context
 import link.magic.android.core.provider.RpcProvider
+import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.core.relayer.urlBuilder.network.CustomNodeConfiguration
 import link.magic.android.modules.auth.AuthModule
 import link.magic.android.modules.user.UserModule
-import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.modules.wallet.WalletModule
 import link.magic.android.modules.web3j.signTypedData.SignTypedDataExtension
 import java.util.*

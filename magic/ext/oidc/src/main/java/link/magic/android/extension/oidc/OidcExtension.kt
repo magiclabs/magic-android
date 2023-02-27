@@ -3,9 +3,9 @@ package link.magic.android.extension.oidc
 import android.content.Context
 import link.magic.android.Magic
 import link.magic.android.core.provider.RpcProvider
-import link.magic.android.modules.auth.response.DIDToken
-import link.magic.android.modules.BaseModule
 import link.magic.android.extension.oidc.requestConfiguration.OpenIdConfiguration
+import link.magic.android.modules.BaseModule
+import link.magic.android.modules.auth.response.DIDToken
 import org.web3j.protocol.core.Request
 import java.util.concurrent.CompletableFuture
 

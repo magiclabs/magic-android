@@ -4,7 +4,6 @@ import com.google.gson.reflect.TypeToken
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction
 import java.lang.reflect.Type
-import java.util.*
 
 
 class GsonExtension {

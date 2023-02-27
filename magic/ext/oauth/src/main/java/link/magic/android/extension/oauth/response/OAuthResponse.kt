@@ -1,8 +1,8 @@
 package link.magic.android.extension.oauth.response
 
+import androidx.annotation.Keep
 import link.magic.android.modules.user.response.UserMetadataResponse
 import org.web3j.protocol.core.Response
-import androidx.annotation.Keep
 
 @Keep
 class OAuthResponse: Response<OAuthResponseClass>()

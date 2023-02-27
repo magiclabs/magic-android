@@ -1,7 +1,6 @@
 package link.magic
 
 import android.app.Application
-import link.magic.android.EthNetwork
 import link.magic.android.Magic
 import link.magic.android.Magic.Companion.debugEnabled
 
