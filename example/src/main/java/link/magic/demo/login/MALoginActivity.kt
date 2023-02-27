@@ -253,11 +253,11 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         }
     }
     
-    /*
+    /**
      * Magic Connect Login
     */
     private fun mcLogin(v: View) {
-        val accounts = (magic as Magic).wallet.connectWithUI()
+        val accounts = (magic as Magic).wallet.connectWithUI(this)
         accounts.whenComplete { response: ConnectWithUIResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
