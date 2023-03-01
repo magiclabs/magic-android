@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import link.magic.android.Magic
+import link.magic.android.Magic.Companion.LOG_WARN_MSG
+import link.magic.android.Magic.Companion.TAG
 import link.magic.android.core.provider.RpcProvider
 import link.magic.android.extension.oauth.challenge.OAuthChallenge
 import link.magic.android.extension.oauth.customTab.CustomTabMainActivity
@@ -92,4 +95,7 @@ class OAuthExtension(rpcProvider: RpcProvider): BaseModule(rpcProvider) {
  * Extend OAuth
  */
 val Magic.oauth: OAuthExtension
-    get() = OAuthExtension.getInstance(this.rpcProvider)
+    get() {
+        Log.w(TAG, LOG_WARN_MSG)
+       return OAuthExtension.getInstance(this.rpcProvider)
+    }
