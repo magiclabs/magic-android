@@ -12,11 +12,11 @@ import link.magic.android.modules.user.requestConfiguration.GenerateIdTokenConfi
 import link.magic.android.modules.user.requestConfiguration.GetIdTokenConfiguration
 import link.magic.android.modules.user.requestConfiguration.UpdateEmailConfiguration
 import link.magic.android.modules.user.response.*
-import link.magic.demo.tabs.MainTabActivity
 import link.magic.demo.R
+import link.magic.demo.tabs.MainTabActivity
 
 
-class MAFragment: Fragment() {
+class MainFragment: Fragment() {
 
     private lateinit var tabActivity: MainTabActivity
     private lateinit var magic: Magic

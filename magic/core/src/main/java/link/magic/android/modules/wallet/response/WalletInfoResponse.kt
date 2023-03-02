@@ -1,7 +1,7 @@
-package link.magic.android.modules.connect.response
+package link.magic.android.modules.wallet.response
 
-import org.web3j.protocol.core.Response
 import androidx.annotation.Keep
+import org.web3j.protocol.core.Response
 
 @Keep
 class WalletInfoResponse: Response<WalletInfo>()

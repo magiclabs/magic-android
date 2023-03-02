@@ -4,13 +4,14 @@ import android.content.Context
 import android.util.Log
 import android.util.Log.DEBUG
 import com.google.gson.Gson
+import io.reactivex.Flowable
+import link.magic.android.Magic
+import link.magic.android.core.relayer.WebViewWrapper
 import link.magic.android.core.relayer.message.OutboundMessageType
 import link.magic.android.core.relayer.message.RequestData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.utils.GsonExtension
 import link.magic.android.utils.Number
-import io.reactivex.Flowable
-import link.magic.android.MagicCore
 import org.web3j.protocol.Web3jService
 import org.web3j.protocol.core.BatchRequest
 import org.web3j.protocol.core.BatchResponse
@@ -18,9 +19,7 @@ import org.web3j.protocol.core.Request
 import org.web3j.protocol.core.Response
 import org.web3j.protocol.websocket.events.Notification
 import java.io.IOException
-import java.lang.Exception
 import java.util.concurrent.CompletableFuture
-import link.magic.android.core.relayer.WebViewWrapper
 
 
 /**
@@ -102,7 +101,7 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
                 .toJson(request)
                 .replace("\\n", "")
 
-        if (MagicCore.debugEnabled) {
+        if (Magic.debugEnabled) {
             Log.d("Magic", "Prepare Message: $message")
         }
 

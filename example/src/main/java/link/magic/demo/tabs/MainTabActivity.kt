@@ -26,7 +26,8 @@ class MainTabActivity : UtilActivity(){
         // tabs
         tabLayout = findViewById<View>(R.id.tab_layout) as TabLayout
         viewPager = findViewById<View>(R.id.view_pager) as ViewPager
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Magic"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Magic Auth"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Magic Connect"))
         tabLayout!!.addTab(tabLayout!!.newTab().setText("Eth"))
         tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
         val adapter = TabLayoutAdapter(this, supportFragmentManager, tabLayout!!.tabCount)

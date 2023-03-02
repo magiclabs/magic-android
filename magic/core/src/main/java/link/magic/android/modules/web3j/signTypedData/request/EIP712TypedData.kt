@@ -3,7 +3,6 @@ package link.magic.android.modules.web3j.signTypedData.request
 import androidx.annotation.Keep
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.*
 
 @Keep
 class EIP712TypedData (

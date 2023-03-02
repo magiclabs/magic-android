@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import link.magic.android.Magic
-import link.magic.android.MagicConnect
-import link.magic.android.MagicCore
 import link.magic.android.modules.web3j.contract.MagicTxnManager
 import link.magic.android.modules.web3j.signTypedData.request.EIP712TypedDataLegacyFields
 import link.magic.android.modules.web3j.signTypedData.response.SignTypedData
@@ -21,8 +19,8 @@ import org.web3j.protocol.admin.methods.response.PersonalSign
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction.createEtherTransaction
 import org.web3j.protocol.core.methods.response.EthAccounts
-import org.web3j.protocol.core.methods.response.EthGetCode
 import org.web3j.protocol.core.methods.response.EthChainId
+import org.web3j.protocol.core.methods.response.EthGetCode
 import org.web3j.protocol.geth.Geth
 import org.web3j.tx.gas.StaticGasProvider
 import org.web3j.utils.Convert
@@ -55,8 +53,8 @@ class EthFragment: Fragment() {
             web3j = Web3j.build(provider)
             gethWeb3j = Geth.build(provider)
         }
-        if (magic is MagicConnect) {
-            val provider = (magic as MagicConnect).rpcProvider
+        if (magic is Magic) {
+            val provider = (magic as Magic).rpcProvider
             provider.context = this.requireActivity()
             web3j = Web3j.build(provider)
             gethWeb3j = Geth.build(provider)
@@ -199,7 +197,7 @@ class EthFragment: Fragment() {
                 EIP712TypedDataLegacyFields("uint32", "Here is a number", "90210")
         )
 
-        val signature = (magic as MagicCore).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, list).sendAsync()
+        val signature = (magic as Magic).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, list).sendAsync()
         signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
             if (error != null) {
                 mainTabActivity.toastAsync("Error: $error")
@@ -214,7 +212,7 @@ class EthFragment: Fragment() {
 
     fun signTypedDataLegacyJson(v: View) {
         val jsonString = "[{\"type\":\"string\",\"name\":\"Hello from Magic\",\"value\":\"This message will be signed by you\"},{\"type\":\"uint32\",\"name\":\"Here is a number\",\"value\":\"90210\"}]"
-        val signature = (magic as MagicCore).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, jsonString).sendAsync()
+        val signature = (magic as Magic).web3jSigExt.signTypedDataLegacy(this.requireActivity(), account, jsonString).sendAsync()
         signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
             if (error != null) {
                 mainTabActivity.toastAsync("Error: $error")
@@ -229,7 +227,7 @@ class EthFragment: Fragment() {
 
     fun signTypedData(v: View) {
         val jsonString = "{\"types\":{\"EIP712Domain\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"version\",\"type\":\"string\"},{\"name\":\"verifyingContract\",\"type\":\"address\"}],\"Order\":[{\"name\":\"makerAddress\",\"type\":\"address\"},{\"name\":\"takerAddress\",\"type\":\"address\"},{\"name\":\"feeRecipientAddress\",\"type\":\"address\"},{\"name\":\"senderAddress\",\"type\":\"address\"},{\"name\":\"makerAssetAmount\",\"type\":\"uint256\"},{\"name\":\"takerAssetAmount\",\"type\":\"uint256\"},{\"name\":\"makerFee\",\"type\":\"uint256\"},{\"name\":\"takerFee\",\"type\":\"uint256\"},{\"name\":\"expirationTimeSeconds\",\"type\":\"uint256\"},{\"name\":\"salt\",\"type\":\"uint256\"},{\"name\":\"makerAssetData\",\"type\":\"bytes\"},{\"name\":\"takerAssetData\",\"type\":\"bytes\"}]},\"domain\":{\"name\":\"0x Protocol\",\"version\":\"2\",\"verifyingContract\":\"0x35dd2932454449b14cee11a94d3674a936d5d7b2\"},\"message\":{\"exchangeAddress\":\"0x35dd2932454449b14cee11a94d3674a936d5d7b2\",\"senderAddress\":\"0x0000000000000000000000000000000000000000\",\"makerAddress\":\"0x338be8514c1397e8f3806054e088b2daf1071fcd\",\"takerAddress\":\"0x0000000000000000000000000000000000000000\",\"makerFee\":\"0\",\"takerFee\":\"0\",\"makerAssetAmount\":\"97500000000000\",\"takerAssetAmount\":\"15000000000000000\",\"makerAssetData\":\"0xf47261b0000000000000000000000000d0a1e359811322d97991e03f863a0c30c2cf029c\",\"takerAssetData\":\"0xf47261b00000000000000000000000006ff6c0ff1d68b964901f986d4c9fa3ac68346570\",\"salt\":\"1553722433685\",\"feeRecipientAddress\":\"0xa258b39954cef5cb142fd567a46cddb31a670124\",\"expirationTimeSeconds\":\"1553808833\"},\"primaryType\":\"Order\"}"
-        val signature = (magic as MagicCore).web3jSigExt.signTypedData(this.requireActivity(), account, jsonString).sendAsync()
+        val signature = (magic as Magic).web3jSigExt.signTypedData(this.requireActivity(), account, jsonString).sendAsync()
         signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
             if (error != null) {
                 mainTabActivity.toastAsync("Error: $error")
@@ -244,7 +242,7 @@ class EthFragment: Fragment() {
 
     fun signTypedDataV4(v: View) {
         val jsonString = "{\"domain\":{\"chainId\":1,\"name\":\"Ether Mail\",\"verifyingContract\":\"0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC\",\"version\":\"1\"},\"message\":{\"contents\":\"Hello, Bob!\",\"from\":{\"name\":\"Cow\",\"wallets\":[\"0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826\",\"0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF\"]},\"to\":[{\"name\":\"Bob\",\"wallets\":[\"0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB\",\"0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57\",\"0xB0B0b0b0b0b0B000000000000000000000000000\"]}]},\"primaryType\":\"Mail\",\"types\":{\"EIP712Domain\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"version\",\"type\":\"string\"},{\"name\":\"chainId\",\"type\":\"uint256\"},{\"name\":\"verifyingContract\",\"type\":\"address\"}],\"Group\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"members\",\"type\":\"Person[]\"}],\"Mail\":[{\"name\":\"from\",\"type\":\"Person\"},{\"name\":\"to\",\"type\":\"Person[]\"},{\"name\":\"contents\",\"type\":\"string\"}],\"Person\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"wallets\",\"type\":\"address[]\"}]}}"
-        val signature = (magic as MagicCore).web3jSigExt.signTypedDataV4(this.requireActivity(), account, jsonString).sendAsync()
+        val signature = (magic as Magic).web3jSigExt.signTypedDataV4(this.requireActivity(), account, jsonString).sendAsync()
         signature.whenComplete { sig: SignTypedData?, error: Throwable? ->
             if (error != null) {
                 mainTabActivity.toastAsync("Error: $error")

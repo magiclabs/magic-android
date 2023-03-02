@@ -21,7 +21,7 @@ import androidx.webkit.WebViewFeature.POST_WEB_MESSAGE
 import androidx.webkit.WebViewFeature.WEB_MESSAGE_PORT_POST_MESSAGE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import link.magic.android.MagicCore
+import link.magic.android.Magic
 import link.magic.android.core.relayer.message.InboundMessageType
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
@@ -94,7 +94,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
         if (WebViewFeature.isFeatureSupported(WEB_MESSAGE_PORT_POST_MESSAGE)) {
             runOnUiThread {
                 if (WebViewFeature.isFeatureSupported(POST_WEB_MESSAGE)) {
-                    if (MagicCore.debugEnabled) {
+                    if (Magic.debugEnabled) {
                         Log.d("Magic", "Send Message $message")
                     }
                     WebViewCompat.postWebMessage(this.webView, WebMessageCompat(message), Uri.parse(urlBuilder.url))
@@ -112,7 +112,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     @JavascriptInterface
     fun postMessage(message: String) {
 
-        if (MagicCore.debugEnabled) {
+        if (Magic.debugEnabled) {
             Log.d("Magic", "Received Message: $message")
         }
 

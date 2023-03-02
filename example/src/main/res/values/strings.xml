@@ -35,6 +35,7 @@
     <string name="Contract_write">Contract Write</string>
     <string name="social_login">Social Login</string>
     <string name="openid_login">OpenID Login</string>
+    <string name="mc_login">Magic Connect Login</string>
     <string name="provider_id_hint">Please enter provider Id</string>
     <string name="jwt_hint">Please enter JWT</string>
     <string name="sms_login">SMS Login</string>
@@ -42,7 +43,7 @@
     <!-- MC -->
     <string name="magic_connect">Magic Connect</string>
     <string name="mc_disconnect">Disconnect</string>
-    <string name="mc_get_wallet_info">Get Wallet Info</string>
-    <string name="mc_show_wallet">Show Wallet</string>
+    <string name="mc_get_info">Get Wallet Info</string>
+    <string name="mc_show_ui">Show Wallet</string>
     <string name="mc_request_user_info">Request UserInfo</string>
 </resources>
