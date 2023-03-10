@@ -1,0 +1,1 @@
+-keep public class link.magic.android.core.provider.RpcProvider

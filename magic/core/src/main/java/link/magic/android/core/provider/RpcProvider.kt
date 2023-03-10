@@ -3,6 +3,7 @@ package link.magic.android.core.provider
 import android.content.Context
 import android.util.Log
 import android.util.Log.DEBUG
+import androidx.annotation.Keep
 import com.google.gson.Gson
 import io.reactivex.Flowable
 import link.magic.android.Magic
@@ -27,6 +28,7 @@ import java.util.concurrent.CompletableFuture
  * @param
  *
  */
+@Keep
 class RpcProvider internal constructor(initialContext: Context, val urlBuilder: URLBuilder) : Web3jService {
 
     /**
