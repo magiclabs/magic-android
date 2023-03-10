@@ -9,7 +9,7 @@ class DemoApp : Application() {
     lateinit var magic: Any
     override fun onCreate() {
 
-        magic = Magic(this, "YOUR_MAGIC_PUBLISHABLE_KEY", ethNetwork = EthNetwork.Goerli)
+        magic = Magic(this, "YOUR_MAGIC_PUBLISHABLE_KEY")
         debugEnabled = true
         super.onCreate()
     }
