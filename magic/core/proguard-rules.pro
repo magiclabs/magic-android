@@ -24,5 +24,7 @@
 -keep public class org.web3j.protocol.core.Response
 -keep public class org.web3j.protocol.core.Request
 
-# Prevent the instance of the Magic WebView from being garbage collected
--keep public class link.magic.android.core.provider.RpcProvider
+-keep class link.magic.android.core.** { *; }
+-keep class link.magic.android.modules.** { *; }
+-keep class link.magic.android.utils.** { *; }
+-keep class link.magic.android.Magic
