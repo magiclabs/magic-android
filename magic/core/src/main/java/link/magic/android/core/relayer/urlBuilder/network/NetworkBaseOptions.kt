@@ -13,5 +13,5 @@ internal class NetworkBaseOptions(
     locale: String,
     bundleId: String,
     debugEnabled: Boolean? = false,
-    isCH: Boolean? = false
-) : BaseOptions(apiKey, mgboxHost, locale, bundleId, debugEnabled, isCH)
+    remoteDebugEnabled: Boolean? = false
+) : BaseOptions(apiKey, mgboxHost, locale, bundleId, debugEnabled, remoteDebugEnabled)

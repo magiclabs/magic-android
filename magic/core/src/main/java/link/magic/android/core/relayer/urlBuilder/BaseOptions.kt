@@ -12,7 +12,7 @@ open class BaseOptions(
     val locale: String,
     val bundleId: String,
     val debugEnabled: Boolean? = false,
-    val isCH: Boolean? = false
+    val remoteDebugEnabled: Boolean? = false
 ): Serializable {
     val sdk = "magic-sdk-android"
 }

@@ -33,7 +33,7 @@ class URLBuilder private constructor(var options: BaseOptions, val apiKey: Strin
     }
 
     internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String)
-            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId, Magic.debugEnabled, Magic.isCH), apiKey)
+            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId, Magic.debugEnabled, Magic.remoteDebugEnabled), apiKey)
     internal constructor(apiKey: String, network: EthNetwork, locale: String, bundleId: String)
-            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId, Magic.debugEnabled, Magic.isCH), apiKey)
+            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId, Magic.debugEnabled, Magic.remoteDebugEnabled), apiKey)
 }
