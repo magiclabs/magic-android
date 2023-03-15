@@ -3,6 +3,7 @@ import android.util.Base64
 import androidx.annotation.Keep
 import com.google.gson.Gson
 import link.magic.android.EthNetwork
+import link.magic.android.Magic
 import link.magic.android.core.relayer.urlBuilder.network.CustomNodeBaseOptions
 import link.magic.android.core.relayer.urlBuilder.network.CustomNodeConfiguration
 import link.magic.android.core.relayer.urlBuilder.network.NetworkBaseOptions
@@ -32,7 +33,7 @@ class URLBuilder private constructor(var options: BaseOptions, val apiKey: Strin
     }
 
     internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String)
-            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId), apiKey)
+            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId, Magic.remoteDebugEnabled), apiKey)
     internal constructor(apiKey: String, network: EthNetwork, locale: String, bundleId: String)
-            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId), apiKey)
+            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId, Magic.remoteDebugEnabled), apiKey)
 }

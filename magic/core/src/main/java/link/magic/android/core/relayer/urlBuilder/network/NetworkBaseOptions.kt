@@ -11,6 +11,6 @@ internal class NetworkBaseOptions(
     @SerializedName("ETH_NETWORK") @Expose val network: String,
     mgboxHost: String,
     locale: String,
-    bundleId: String
-) :
-        BaseOptions(apiKey, mgboxHost, locale, bundleId)
+    bundleId: String,
+    remoteDebugEnabled: Boolean? = false
+) : BaseOptions(apiKey, mgboxHost, locale, bundleId, remoteDebugEnabled)
