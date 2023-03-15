@@ -12,6 +12,5 @@ internal class CustomNodeBaseOptions internal constructor(
     mgboxHost: String,
     locale: String,
     bundleId: String,
-    debugEnabled: Boolean? = false,
     remoteDebugEnabled: Boolean? = false
-) : BaseOptions(apiKey, mgboxHost, locale, bundleId, debugEnabled, remoteDebugEnabled)
+) : BaseOptions(apiKey, mgboxHost, locale, bundleId, remoteDebugEnabled)
