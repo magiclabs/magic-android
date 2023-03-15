@@ -10,7 +10,9 @@ open class BaseOptions(
     @SerializedName("API_KEY") @Expose val apiKey: String,
     val host: String,
     val locale: String,
-    val bundleId: String
+    val bundleId: String,
+    val debugEnabled: Boolean? = false,
+    val isCH: Boolean? = false
 ): Serializable {
     val sdk = "magic-sdk-android"
 }
