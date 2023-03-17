@@ -77,6 +77,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
      */
     fun enqueue(message: String, id: Long, callback: (String) -> Unit) {
         queue.add(message)
+        Log.i("Magic", "MESSAGE ADDED in enqueue queue => ${queue}")
         messageHandlers[id] = callback
         dequeue()
     }
@@ -84,6 +85,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     private fun dequeue() {
         if (queue.isNotEmpty() && overlayReady) {
             val message = queue.removeAt(0)
+            Log.i("Magic", "MESSAGE REMOVED in dequeue queue => ${queue}")
             postMessageToMgbox(message)
             dequeue()
         }
@@ -97,6 +99,9 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                     if (Magic.debugEnabled) {
                         Log.d("Magic", "Send Message $message")
                     }
+                    Log.i("Magic", "postMessageToMgboxwebview ${this.webView}")
+                    Log.i("Magic", "postMessageToMgbox message ${message}")
+                    Log.i("Magic", "postMessageToMgboxe url ${urlBuilder.url}")
                     WebViewCompat.postWebMessage(this.webView, WebMessageCompat(message), Uri.parse(urlBuilder.url))
                 }
             }
