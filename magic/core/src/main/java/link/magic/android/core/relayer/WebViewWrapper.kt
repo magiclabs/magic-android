@@ -108,10 +108,9 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
 
                         webView.evaluateJavascript (
                             "console.log('the JS has been evaluated!');"
-                        ) { value -> // This method will be called when the JavaScript evaluation is complete.
+                        ) { value ->
+                            // This method will be called when the JavaScript evaluation is complete.
                             // The value parameter contains the result of the evaluation as a JSON-encoded string.
-
-                            // Do something with the result
                             Log.i("Magic", "JavaScript Evaluation result: $value")
                         }
                     }
