@@ -102,17 +102,6 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 if (WebViewFeature.isFeatureSupported(POST_WEB_MESSAGE)) {
                     if (Magic.debugEnabled) {
                         Log.d("Magic", "Send Message $message")
-                        Log.i("Magic", "postMessageToMgboxwebview ${this.webView}")
-                        Log.i("Magic", "postMessageToMgbox message ${message}")
-                        Log.i("Magic", "postMessageToMgboxe url ${urlBuilder.url}")
-
-                        webView.evaluateJavascript (
-                            "console.log('the JS has been evaluated!');"
-                        ) { value ->
-                            // This method will be called when the JavaScript evaluation is complete.
-                            // The value parameter contains the result of the evaluation as a JSON-encoded string.
-                            Log.i("Magic", "JavaScript Evaluation result: $value")
-                        }
                     }
                     WebViewCompat.postWebMessage(this.webView, WebMessageCompat(message), Uri.parse(urlBuilder.url))
                 }
