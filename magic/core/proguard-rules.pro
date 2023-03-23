@@ -23,8 +23,3 @@
 # Add web3j classes here to prevent obfuscation during JSON serialization
 -keep public class org.web3j.protocol.core.Response
 -keep public class org.web3j.protocol.core.Request
-
--keep class link.magic.android.core.** { *; }
--keep class link.magic.android.modules.** { *; }
--keep class link.magic.android.utils.** { *; }
--keep class link.magic.android.Magic
