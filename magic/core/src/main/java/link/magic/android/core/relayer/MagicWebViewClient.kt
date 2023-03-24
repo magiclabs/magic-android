@@ -9,9 +9,10 @@ import android.webkit.URLUtil
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.webkit.WebViewClientCompat
 
 
-internal class MagicWebViewClient : WebViewClient() {
+internal class MagicWebViewClient : WebViewClientCompat() {
 
     // The starting activity call in each if-branch looks the same,
     // keeping this structure just in case, we need tweak according to different deeplink url format
