@@ -150,7 +150,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
             } else {
                 Log.d("Magic loginWithSMS isLoggedIn result", response?.result.toString())
                 val phoneNumber = findViewById<EditText>(R.id.phone_number_input)
-                val configuration = LoginWithSMSConfiguration("+12067028107")
+                val configuration = LoginWithSMSConfiguration(phoneNumber.text.toString())
                 val result = (magic as Magic).auth.loginWithSMS(this, configuration)
                 toastAsync("Logging in...")
                 result.whenComplete { token: DIDToken?, error: Throwable? ->
@@ -183,7 +183,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
             } else {
                 Log.d("Magic loginWithSMS isLoggedIn result", response?.result.toString())
                 val email = findViewById<EditText>(R.id.email_input)
-                val configuration = LoginWithEmailOTPConfiguration("arian.flores@magic.link")
+                val configuration = LoginWithEmailOTPConfiguration(email.text.toString())
                 val result = (magic as Magic).auth.loginWithEmailOTP(this, configuration)
                 toastAsync("Logging in...")
                 result.whenComplete { token: DIDToken?, error: Throwable? ->
