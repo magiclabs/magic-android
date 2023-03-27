@@ -8,9 +8,8 @@ class DemoApp : Application() {
 
     lateinit var magic: Any
     override fun onCreate() {
-
-        magic = Magic(this, "YOUR_MAGIC_PUBLISHABLE_KEY")
         debugEnabled = true
+        magic = Magic(this, "pk_live_CB29F016115E1D30")
         super.onCreate()
     }
 }

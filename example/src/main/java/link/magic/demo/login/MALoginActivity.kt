@@ -125,13 +125,13 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         toastAsync("Logging in...")
         result.whenComplete { token: DIDToken?, error: Throwable? ->
             if (error != null) {
-                Log.d("error", error.localizedMessage)
+                Log.d("loginWithEmail error", error.localizedMessage)
             }
             if (token != null && !token.hasError()) {
-                Log.d("login", token.result)
+                Log.d("loginWithEmail login", token.result)
                 startTabActivity()
             } else {
-                Log.d("login", "Unable to login")
+                Log.d("loginWithEmail login", "Unable to login")
             }
         }
     }
@@ -140,19 +140,31 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
      * Login With Magic Link
      */
     private fun loginWithSMS(v: View) {
-        val phoneNumber = findViewById<EditText>(R.id.phone_number_input)
-        val configuration = LoginWithSMSConfiguration(phoneNumber.text.toString())
-        val result = (magic as Magic).auth.loginWithSMS(this, configuration)
-        toastAsync("Logging in...")
-        result.whenComplete { token: DIDToken?, error: Throwable? ->
+        val completable = (magic as Magic).user.isLoggedIn(this)
+        completable.whenComplete { response: IsLoggedInResponse?, error: Throwable? ->
             if (error != null) {
-                Log.d("error", error.localizedMessage)
+                Log.d("Magic loginWithSMS isLoggedIn ERROR", error.localizedMessage)
             }
-            if (token != null && !token.hasError()) {
-                Log.d("login", token.result)
-                startTabActivity()
+            if (response != null && response.result) {
+                Log.d("Magic loginWithSMS isLoggedIn result", "USER IS LOGGED IN")
             } else {
-                Log.d("login", "Unable to login")
+                Log.d("Magic loginWithSMS isLoggedIn result", response?.result.toString())
+                val phoneNumber = findViewById<EditText>(R.id.phone_number_input)
+                val configuration = LoginWithSMSConfiguration("+12067028107")
+                val result = (magic as Magic).auth.loginWithSMS(this, configuration)
+                toastAsync("Logging in...")
+                result.whenComplete { token: DIDToken?, error: Throwable? ->
+                    Log.d("Magic loginWithSMS USER", "ATTEMPT")
+                    if (error != null) {
+                        Log.d("error", error.localizedMessage)
+                    }
+                    if (token != null && !token.hasError()) {
+                        Log.d("Magic loginWithSMS USER logged-in", token.result)
+                        startMALoginActivity()
+                    } else {
+                        Log.d("Magic loginWithSMS USER NOT logged-in", "Unable to login")
+                    }
+                }
             }
         }
     }
@@ -161,19 +173,30 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
      * Login With Magic Link
      */
     private fun loginWithEmailOTP(v: View) {
-        val email = findViewById<EditText>(R.id.email_input)
-        val configuration = LoginWithEmailOTPConfiguration(email.text.toString())
-        val result = (magic as Magic).auth.loginWithEmailOTP(this, configuration)
-        toastAsync("Logging in...")
-        result.whenComplete { token: DIDToken?, error: Throwable? ->
+        val completable = (magic as Magic).user.isLoggedIn(this)
+        completable.whenComplete { response: IsLoggedInResponse?, error: Throwable? ->
             if (error != null) {
-                Log.d("error", error.localizedMessage)
+                Log.d("Magic loginWithSMS isLoggedIn ERROR", error.localizedMessage)
             }
-            if (token != null && !token.hasError()) {
-                Log.d("login", token.result)
-                startTabActivity()
+            if (response != null && response.result) {
+                Log.d("Magic loginWithSMS isLoggedIn result", "USER IS LOGGED IN")
             } else {
-                Log.d("login", "Unable to login")
+                Log.d("Magic loginWithSMS isLoggedIn result", response?.result.toString())
+                val email = findViewById<EditText>(R.id.email_input)
+                val configuration = LoginWithEmailOTPConfiguration("arian.flores@magic.link")
+                val result = (magic as Magic).auth.loginWithEmailOTP(this, configuration)
+                toastAsync("Logging in...")
+                result.whenComplete { token: DIDToken?, error: Throwable? ->
+                    if (error != null) {
+                        Log.d("error", error.localizedMessage)
+                    }
+                    if (token != null && !token.hasError()) {
+                        Log.d("login", "SUCCESSFUL LOGIN >>>>>>>>>>>>>>>> ${token.result}")
+                        startMALoginActivity()
+                    } else {
+                        Log.d("login", "UNABLE TO LOGIN!")
+                    }
+                }
             }
         }
     }
