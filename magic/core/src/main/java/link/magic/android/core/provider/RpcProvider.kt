@@ -33,8 +33,8 @@ import java.util.concurrent.CompletableFuture
 class RpcProvider internal constructor(initialContext: Context, val urlBuilder: URLBuilder) : Web3jService {
 
     init {
-        // Ping the iFrame every 2min to prevent the WebView from garbage collecting it
-        setInterval(120000) {
+        // Ping the iFrame every 5 seconds to prevent the WebView from garbage collecting it
+        setInterval(5000) {
             val request = Request(Method.MAGIC_BOX_HEART_BEAT.toString(), emptyList<String>(), this,  HeartbeatResponse::class.java)
             sendAsync(request, HeartbeatResponse::class.java)
         }
