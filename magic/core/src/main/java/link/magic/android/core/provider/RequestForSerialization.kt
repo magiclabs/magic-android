@@ -6,7 +6,7 @@ import androidx.annotation.Keep
 class RequestForSerialization<S>(
     private var method: String,
     private var params: List<S>,
-    private var id: Long
+    var id: Long
 ) {
 
     private val jsonrpc = "2.0"

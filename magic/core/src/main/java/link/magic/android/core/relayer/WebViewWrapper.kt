@@ -21,8 +21,12 @@ import androidx.webkit.WebViewFeature.POST_WEB_MESSAGE
 import androidx.webkit.WebViewFeature.WEB_MESSAGE_PORT_POST_MESSAGE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import link.magic.android.Magic
 import link.magic.android.core.relayer.message.InboundMessageType
+import link.magic.android.core.relayer.message.RequestData
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import org.web3j.protocol.core.Response
@@ -32,17 +36,21 @@ import java.util.*
 /**
  * This class is designed to be instantiate only once. As for the webview
  */
-
 class WebViewWrapper internal constructor(context: Context, private val urlBuilder: URLBuilder) {
 
     internal val mMutableContext = MutableContextWrapper(context)
-    private val webView: WebView = WebView(mMutableContext)
+    private var webView: WebView = WebView(mMutableContext)
     private var webViewDialog: WebViewDialog? = null
 
     private var overlayReady = false
     private val queue: MutableList<String> = ArrayList()
 
     private var messageHandlers: HashMap<Long, (responseString: String) -> Unit> = HashMap()
+
+    private var messageSentId: Long? = null
+    private var messageReceiptId: Long? = null
+    private var missedMessage: String? = null
+    private val FIVE_SECONDS = 5_000L
 
      init {
          WebView.setWebContentsDebuggingEnabled(true)
@@ -52,6 +60,10 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
              initializeWebView()
          } else {
              throw IllegalArgumentException("Initializing context should be application context ")
+         }
+         // Periodically Check if Webview should be rebuilt
+         setInterval(FIVE_SECONDS) {
+             maybeRebuildWebView(context)
          }
     }
 
@@ -90,7 +102,6 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     }
 
     private fun postMessageToMgbox(message: String) {
-
         if (WebViewFeature.isFeatureSupported(WEB_MESSAGE_PORT_POST_MESSAGE)) {
             runOnUiThread {
                 if (WebViewFeature.isFeatureSupported(POST_WEB_MESSAGE)) {
@@ -98,6 +109,10 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                         Log.d("Magic", "Send Message $message")
                     }
                     WebViewCompat.postWebMessage(this.webView, WebMessageCompat(message), Uri.parse(urlBuilder.url))
+
+                    val decodedRequest = Gson().fromJson(message, RequestData::class.java)
+                    messageSentId = decodedRequest.payload.id
+                    missedMessage = message
                 }
             }
         } else {
@@ -111,7 +126,6 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
      */
     @JavascriptInterface
     fun postMessage(message: String) {
-
         if (Magic.debugEnabled) {
             Log.d("Magic", "Received Message: $message")
         }
@@ -120,6 +134,11 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
         val response = Gson().fromJson<ResponseData<Response<*>>>(message, object: TypeToken<ResponseData<Response<*>>>(){}.type)
         when {
             InboundMessageType.MAGIC_OVERLAY_READY.toString() in response.msgType -> {
+                // In the case there's a missed message, re-queue it at the top of the stack
+                missedMessage?.let {
+                    queue.add(0, it)
+                    missedMessage = null
+                }
                 overlayReady = true
                 dequeue()
             }
@@ -129,6 +148,11 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 val json = Gson().toJson(response.response)
                 messageHandlers[response.response.id]?.let { it(json) }
                 messageHandlers.remove(response.response.id)
+            }
+            InboundMessageType.MAGIC_MG_BOX_SEND_RECEIPT.toString() in response.msgType -> {
+                messageReceiptId = response.response.id
+                // Message received, reset missedMessage
+                missedMessage = null
             }
         }
     }
@@ -180,6 +204,29 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                     cb(ctx)
                 }
             }
+        }
+    }
+
+    private fun maybeRebuildWebView(context: Context) {
+         if (messageSentId != null && messageReceiptId != null && messageSentId!! != messageReceiptId!!) {
+             if (Magic.debugEnabled) {
+                 Log.e("Magic", "A hang up error has occurred.")
+             }
+             runOnUiThread {
+                 webView = WebView(mMutableContext)
+                 if (context is Application) {
+                     initializeWebView()
+                 } else {
+                     throw IllegalArgumentException("Initializing context should be application context ")
+                 }
+             }
+        }
+    }
+
+    private fun setInterval(timeMillis: Long, handler: () -> Unit) = GlobalScope.launch {
+        while (true) {
+            delay(timeMillis)
+            handler()
         }
     }
 }
