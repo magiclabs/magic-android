@@ -48,7 +48,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     private var messageHandlers: HashMap<Long, (responseString: String) -> Unit> = HashMap()
 
     private var messageSentId: Long? = null
-    private var messageReceivedId: Long? = null
+    private var messageReceiptId: Long? = null
     private var missedMessage: String? = null
     private val FIVE_SECONDS = 5_000L
 
@@ -150,7 +150,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 messageHandlers.remove(response.response.id)
             }
             InboundMessageType.MAGIC_MG_BOX_SEND_RECEIPT.toString() in response.msgType -> {
-                messageReceivedId = response.response.id
+                messageReceiptId = response.response.id
                 // Message received, reset missedMessage
                 missedMessage = null
             }
@@ -208,7 +208,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     }
 
     private fun maybeRebuildWebView(context: Context) {
-         if (messageSentId != null && messageReceivedId != null && messageSentId!! != messageReceivedId!!) {
+         if (messageSentId != null && messageReceiptId != null && messageSentId!! != messageReceiptId!!) {
              if (Magic.debugEnabled) {
                  Log.e("Magic", "A hang up error has occurred.")
              }
