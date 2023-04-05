@@ -21,14 +21,11 @@ import androidx.webkit.WebViewFeature.POST_WEB_MESSAGE
 import androidx.webkit.WebViewFeature.WEB_MESSAGE_PORT_POST_MESSAGE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import link.magic.android.Magic
 import link.magic.android.core.relayer.message.InboundMessageType
-import link.magic.android.core.relayer.message.RequestData
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
+import link.magic.android.utils.Debouncer
 import org.web3j.protocol.core.Response
 import java.util.*
 
@@ -39,6 +36,7 @@ import java.util.*
 class WebViewWrapper internal constructor(context: Context, private val urlBuilder: URLBuilder) {
 
     internal val mMutableContext = MutableContextWrapper(context)
+    private val mImmutableContext = context
     private var webView: WebView = WebView(mMutableContext)
     private var webViewDialog: WebViewDialog? = null
 
@@ -47,10 +45,9 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
 
     private var messageHandlers: HashMap<Long, (responseString: String) -> Unit> = HashMap()
 
-    private var messageSentId: Long? = null
-    private var messageReceiptId: Long? = null
     private var missedMessage: String? = null
     private val FIVE_SECONDS = 5_000L
+    private val debouncer: Debouncer = Debouncer()
 
      init {
          WebView.setWebContentsDebuggingEnabled(true)
@@ -60,10 +57,6 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
              initializeWebView()
          } else {
              throw IllegalArgumentException("Initializing context should be application context ")
-         }
-         // Periodically Check if Webview should be rebuilt
-         setInterval(FIVE_SECONDS) {
-             maybeRebuildWebView(context)
          }
     }
 
@@ -110,9 +103,10 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                     }
                     WebViewCompat.postWebMessage(this.webView, WebMessageCompat(message), Uri.parse(urlBuilder.url))
 
-                    val decodedRequest = Gson().fromJson(message, RequestData::class.java)
-                    messageSentId = decodedRequest.payload.id
-                    missedMessage = message
+                    debouncer.debounce(FIVE_SECONDS) {
+                        missedMessage = message
+                        rebuildWebView(mImmutableContext)
+                    }
                 }
             }
         } else {
@@ -150,9 +144,8 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 messageHandlers.remove(response.response.id)
             }
             InboundMessageType.MAGIC_MG_BOX_SEND_RECEIPT.toString() in response.msgType -> {
-                messageReceiptId = response.response.id
-                // Message received, reset missedMessage
-                missedMessage = null
+                // When a receipt is received cancel previously invoked debounce call
+                debouncer.cancel()
             }
         }
     }
@@ -207,26 +200,17 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
         }
     }
 
-    private fun maybeRebuildWebView(context: Context) {
-         if (messageSentId != null && messageReceiptId != null && messageSentId!! != messageReceiptId!!) {
-             if (Magic.debugEnabled) {
-                 Log.e("Magic", "A hang up error has occurred.")
-             }
-             runOnUiThread {
-                 webView = WebView(mMutableContext)
-                 if (context is Application) {
-                     initializeWebView()
-                 } else {
-                     throw IllegalArgumentException("Initializing context should be application context ")
-                 }
-             }
+    private fun rebuildWebView(context: Context) {
+        if (Magic.debugEnabled) {
+            Log.i("Magic", "The Webview has hung. Please wait a few seconds as it rebuilds")
         }
-    }
-
-    private fun setInterval(timeMillis: Long, handler: () -> Unit) = GlobalScope.launch {
-        while (true) {
-            delay(timeMillis)
-            handler()
+        runOnUiThread {
+            webView = WebView(mMutableContext)
+            if (context is Application) {
+                initializeWebView()
+            } else {
+                throw IllegalArgumentException("Initializing context should be application context ")
+            }
         }
     }
 }
