@@ -19,6 +19,9 @@ class WebViewDialog(context: Context, private val webView: WebView) : Dialog(con
 
     private fun createContentView(): View {
         val layout = RelativeLayout(context)
+        if (webView.parent != null) {
+            (webView.parent as ViewGroup).removeView(webView)
+        }
         layout.addView(webView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         return layout
     }
