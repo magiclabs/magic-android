@@ -48,7 +48,9 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
 
             requestPayload: Request<*, *>, responseType: Class<T>): T {
          try {
-             Log.println(DEBUG, "MagicSDK-Warning", "It's highly recommended to send payloads using sendAsync()")
+             if (Magic.debugEnabled) {
+                 Log.println(DEBUG, "MagicSDK-Warning", "It's highly recommended to send payloads using sendAsync()")
+             }
              return sendAsync(requestPayload, responseType).get()
         } catch (e: Exception) {
             throw RuntimeException("Unexpected exception", e.cause)

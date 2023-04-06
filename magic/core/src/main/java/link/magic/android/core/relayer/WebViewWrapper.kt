@@ -161,7 +161,9 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
 
                 webViewDialog?.show()
             } else {
-                Log.d("Magic", "showOverlay failed, Please pass Activity Context to API Call")
+                if (Magic.debugEnabled) {
+                    Log.d("Magic", "showOverlay failed, Please pass Activity Context to API Call")
+                }
             }
         }
     }
