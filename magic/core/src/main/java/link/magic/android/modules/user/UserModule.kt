@@ -2,6 +2,7 @@ package link.magic.android.modules.user
 
 import android.content.Context
 import android.util.Log
+import link.magic.android.Magic
 import link.magic.android.core.provider.RpcProvider
 import link.magic.android.modules.BaseModule
 import link.magic.android.modules.user.requestConfiguration.GenerateIdTokenConfiguration
@@ -20,25 +21,33 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         private val LOG_WARN_MSG: String = "This method only work with Magic Auth API Keys"
 
         fun getIdToken(context: Context, configuration: GetIdTokenConfiguration?): CompletableFuture<GetIdTokenResponse> {
-                Log.w(TAG, LOG_WARN_MSG)
+                if(Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_GET_ID_TOKEN.toString(), listOf(configuration), provider, GetIdTokenResponse::class.java)
                 return provider.sendAsync(request, GetIdTokenResponse::class.java)
         }
         fun generateIdToken(context: Context, configuration: GenerateIdTokenConfiguration?): CompletableFuture<GenerateIdTokenResponse>{
-                Log.w(TAG, LOG_WARN_MSG)
+                if(Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_GENERATE_ID_TOKEN.toString(), listOf(configuration), provider, GenerateIdTokenResponse::class.java)
                 return provider.sendAsync(request, GenerateIdTokenResponse::class.java)
         }
         fun getMetadata(context: Context): CompletableFuture<GetMetadataResponse>{
-                Log.w(TAG, LOG_WARN_MSG)
+                if (Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_GET_METADATA.toString(), emptyList<String>(), provider, GetMetadataResponse::class.java)
                 return provider.sendAsync(request, GetMetadataResponse::class.java)
         }
         fun isLoggedIn(context: Context): CompletableFuture<IsLoggedInResponse> {
-                Log.w(TAG, LOG_WARN_MSG)
+                if (Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_IS_LOGGED_IN.toString(), emptyList<String>(), provider, IsLoggedInResponse::class.java)
                 return provider.sendAsync(request, IsLoggedInResponse::class.java)
@@ -50,14 +59,18 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         }
         
         fun showSettings(context: Context): CompletableFuture<ShowMfaResponse> {
-                Log.w(TAG, LOG_WARN_MSG)
+                if(Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_SETTINGS.toString(), emptyList<String>(), provider, ShowMfaResponse::class.java)
                 return provider.sendAsync(request, ShowMfaResponse::class.java)
         }
 
         fun logout(context: Context): CompletableFuture<LogoutResponse> {
-                Log.w(TAG, LOG_WARN_MSG)
+                if(Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_LOGOUT.toString(), emptyList<String>(), provider, LogoutResponse::class.java)
                 return provider.sendAsync(request, LogoutResponse::class.java)
@@ -69,7 +82,9 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         }
 
         fun recoverAccount(context: Context, configuration: RecoverAccountConfiguration): CompletableFuture<RecoverAccountResponse> {
-                Log.w(TAG, LOG_WARN_MSG)
+                if(Magic.debugEnabled) {
+                        Log.w(TAG, LOG_WARN_MSG)
+                }
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_RECOVER_ACCOUNT.toString(), listOf(configuration), provider, RecoverAccountResponse::class.java)
                 return provider.sendAsync(request, RecoverAccountResponse::class.java)
