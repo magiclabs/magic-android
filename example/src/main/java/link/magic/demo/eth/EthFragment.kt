@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import link.magic.android.Magic
+import link.magic.android.modules.user.response.GetMetadataResponse
 import link.magic.android.modules.web3j.contract.MagicTxnManager
 import link.magic.android.modules.web3j.signTypedData.request.EIP712TypedDataLegacyFields
 import link.magic.android.modules.web3j.signTypedData.response.SignTypedData
@@ -64,7 +65,7 @@ class EthFragment: Fragment() {
 
         // Web3 Button binding
         inflatedView.findViewById<Button>(R.id.get_address).setOnClickListener {
-            getAddress(it)
+            getAddress()
         }
          inflatedView.findViewById<Button>(R.id.get_balance).setOnClickListener {
             getBalance(it)
@@ -91,7 +92,7 @@ class EthFragment: Fragment() {
             signTypedData(it)
         }
          inflatedView.findViewById<Button>(R.id.sign_typed_data_v4).setOnClickListener {
-            signTypedDataV4(it)
+            signTypedDataV4()
         }
 
         // Contract
@@ -108,11 +109,26 @@ class EthFragment: Fragment() {
         return inflatedView
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getAddress()
+        val completable = (magic as Magic).user.getMetadata(this.requireActivity())
+        completable.whenComplete { response: GetMetadataResponse?, error: Throwable? ->
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (response != null) {
+                signTypedDataV4()
+            }
+        }
+    }
+
     /**
      * Web3 functions
      */
 
-    private fun getAddress(v: View){
+    private fun getAddress(){
         try {
             val accounts = web3j.ethAccounts().sendAsync()
             accounts.whenComplete { accRepsonse: EthAccounts?, error: Throwable? ->
@@ -240,7 +256,7 @@ class EthFragment: Fragment() {
         }
     }
 
-    fun signTypedDataV4(v: View) {
+    fun signTypedDataV4() {
         val jsonString = "{\"domain\":{\"chainId\":1,\"name\":\"Ether Mail\",\"verifyingContract\":\"0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC\",\"version\":\"1\"},\"message\":{\"contents\":\"Hello, Bob!\",\"from\":{\"name\":\"Cow\",\"wallets\":[\"0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826\",\"0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF\"]},\"to\":[{\"name\":\"Bob\",\"wallets\":[\"0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB\",\"0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57\",\"0xB0B0b0b0b0b0B000000000000000000000000000\"]}]},\"primaryType\":\"Mail\",\"types\":{\"EIP712Domain\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"version\",\"type\":\"string\"},{\"name\":\"chainId\",\"type\":\"uint256\"},{\"name\":\"verifyingContract\",\"type\":\"address\"}],\"Group\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"members\",\"type\":\"Person[]\"}],\"Mail\":[{\"name\":\"from\",\"type\":\"Person\"},{\"name\":\"to\",\"type\":\"Person[]\"},{\"name\":\"contents\",\"type\":\"string\"}],\"Person\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"wallets\",\"type\":\"address[]\"}]}}"
         val signature = (magic as Magic).web3jSigExt.signTypedDataV4(this.requireActivity(), account, jsonString).sendAsync()
         signature.whenComplete { sig: SignTypedData?, error: Throwable? ->

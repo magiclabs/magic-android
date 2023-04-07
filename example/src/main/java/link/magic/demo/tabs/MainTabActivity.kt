@@ -42,5 +42,6 @@ class MainTabActivity : UtilActivity(){
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+        tabLayout!!.getTabAt(2)?.select()
     }
 }

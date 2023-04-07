@@ -28,7 +28,8 @@ class URLBuilder private constructor(var options: BaseOptions, val apiKey: Strin
         }
 
     companion object {
-        private const val mgboxHost = "https://box.magic.link"
+//        private const val mgboxHost = "https://box.magic.link"
+             private const val mgboxHost = "http://192.168.1.219:3016"
     }
 
     internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String)
