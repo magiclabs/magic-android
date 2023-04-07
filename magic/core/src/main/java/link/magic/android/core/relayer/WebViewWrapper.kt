@@ -33,7 +33,7 @@ import java.util.*
 /**
  * This class is designed to be instantiate only once. As for the webview
  */
-class WebViewWrapper internal constructor(context: Context, private val urlBuilder: URLBuilder) {
+class WebViewWrapper internal constructor(context: Context, private val urlBuilder: URLBuilder, resetContext: () -> Unit) {
 
     internal val mMutableContext = MutableContextWrapper(context)
     private val mImmutableContext = context
@@ -48,6 +48,8 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     private var missedMessage: String? = null
     private val FIVE_SECONDS = 5_000L
     private val debouncer: Debouncer = Debouncer()
+
+    private val resetContext: () -> Unit = resetContext
 
      init {
          WebView.setWebContentsDebuggingEnabled(true)
@@ -142,6 +144,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 val json = Gson().toJson(response.response)
                 messageHandlers[response.response.id]?.let { it(json) }
                 messageHandlers.remove(response.response.id)
+                resetContext()
             }
             InboundMessageType.MAGIC_MG_BOX_SEND_RECEIPT.toString() in response.msgType -> {
                 // When a receipt is received cancel previously invoked debounce call

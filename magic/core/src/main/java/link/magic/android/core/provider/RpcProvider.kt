@@ -1,5 +1,6 @@
 package link.magic.android.core.provider
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.util.Log.DEBUG
@@ -31,7 +32,17 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
     /**
      * Construct Relayer to send payloads to WebView
      */
-    internal var overlay = WebViewWrapper(initialContext, urlBuilder)
+    internal var overlay = WebViewWrapper(initialContext, urlBuilder) {
+        // Fallback to Application context when payload resolves in WebViewWrapper to prevent memory leak
+        if (initialContext is Application) {
+            if(Magic.debugEnabled) {
+                Log.i("Magic", "RpcProvider: context reset to application context")
+            }
+            context = initialContext
+        } else {
+            throw IllegalArgumentException("Attempting to reset provider context without application context")
+        }
+    }
 
     /**
      * get and setter Context for UI views to be displayed
