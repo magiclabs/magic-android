@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.util.Log.DEBUG
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.google.gson.Gson
 import io.reactivex.Flowable
 import link.magic.android.Magic
@@ -33,12 +35,15 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
      * Construct Relayer to send payloads to WebView
      */
     internal var overlay = WebViewWrapper(initialContext, urlBuilder) {
-        // Fallback to Application context when payload resolves in WebViewWrapper to prevent memory leak
+        // Fallback to Application context if previous context was destroyed and payload resolves in WebViewWrapper to prevent memory leak
         if (initialContext is Application) {
-            if(Magic.debugEnabled) {
-                Log.i("Magic", "RpcProvider: context reset to application context")
+            val owner = context as LifecycleOwner
+            if (owner.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+                if(Magic.debugEnabled) {
+                    Log.i("Magic", "RpcProvider: context reset to application context")
+                }
+                context = initialContext
             }
-            context = initialContext
         } else {
             throw IllegalArgumentException("Attempting to reset provider context without application context")
         }
