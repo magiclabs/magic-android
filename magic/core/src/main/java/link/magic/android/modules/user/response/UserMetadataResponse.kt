@@ -7,4 +7,5 @@ class UserMetadataResponse {
     var issuer: String? = null
     var publicAddress: String? = null
     var email: String? = null
+    var phoneNumber: String? = null
 }
