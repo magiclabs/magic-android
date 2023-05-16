@@ -155,13 +155,12 @@ class MainFragment: Fragment() {
      */
     private fun showMFA() {
         val result = (magic as Magic).user.showSettings(this.requireContext())
-        result.whenComplete { isShowMfaResponse: ShowMfaResponse?, error: Throwable? ->
+        result.whenComplete { response: GetMetadataResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
             }
-            if (isShowMfaResponse != null) {
-                var resp = isShowMfaResponse.result
-                tabActivity.toastAsync("Showing MFA response: $resp ")
+            if (response != null) {
+                tabActivity.toastAsync("Email: " + response.result.email + "\n" + "issuer: " + response.result.issuer + "\n")
             }
         }
     }
