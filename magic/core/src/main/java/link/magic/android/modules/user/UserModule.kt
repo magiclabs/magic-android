@@ -58,13 +58,13 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
                 return provider.sendAsync(request, UpdateEmailResponse::class.java)
         }
         
-        fun showSettings(context: Context): CompletableFuture<ShowMfaResponse> {
+        fun showSettings(context: Context): CompletableFuture<GetMetadataResponse> {
                 if(Magic.debugEnabled) {
                         Log.w(TAG, LOG_WARN_MSG)
                 }
                 provider.context = context
-                val request = Request(Method.MAGIC_AUTH_SETTINGS.toString(), emptyList<String>(), provider, ShowMfaResponse::class.java)
-                return provider.sendAsync(request, ShowMfaResponse::class.java)
+                val request = Request(Method.MAGIC_AUTH_SETTINGS.toString(), emptyList<String>(), provider, GetMetadataResponse::class.java)
+                return provider.sendAsync(request, GetMetadataResponse::class.java)
         }
 
         fun logout(context: Context): CompletableFuture<LogoutResponse> {
