@@ -14,7 +14,6 @@ import link.magic.android.extension.oauth.response.OAuthResponse
 import link.magic.android.extension.oidc.openid
 import link.magic.android.extension.oidc.requestConfiguration.OpenIdConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithEmailOTPConfiguration
-import link.magic.android.modules.auth.requestConfiguration.LoginWithMagicLinkConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithSMSConfiguration
 import link.magic.android.modules.auth.response.DIDToken
 import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfiguration
@@ -36,10 +35,6 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
         magic = (applicationContext as DemoApp).magic
         setContentView(R.layout.activity_ma_login)
 
-        val emailButton: Button = findViewById<Button>(R.id.email_login_btn)
-        emailButton.setOnClickListener{
-            loginWithEmail(it)
-        }
         val recoverAccountButton: Button = findViewById<Button>(R.id.recover_account_btn)
         recoverAccountButton.setOnClickListener{
             recoverAccount(it)
@@ -111,27 +106,6 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
             if (isLoggedInResponse != null && isLoggedInResponse.result) {
                 toastAsync("Logged In")
                 startTabActivity()
-            }
-        }
-    }
-
-    /**
-     * Login With Magic Link
-     */
-    private fun loginWithEmail(v: View) {
-        val email = findViewById<EditText>(R.id.email_input)
-        val configuration = LoginWithMagicLinkConfiguration(email.text.toString())
-        val result = (magic as Magic).auth.loginWithMagicLink(this, configuration)
-        toastAsync("Logging in...")
-        result.whenComplete { token: DIDToken?, error: Throwable? ->
-            if (error != null) {
-                Log.d("error", error.localizedMessage)
-            }
-            if (token != null && !token.hasError()) {
-                Log.d("login", token.result)
-                startTabActivity()
-            } else {
-                Log.d("login", "Unable to login")
             }
         }
     }
