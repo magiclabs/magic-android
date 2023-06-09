@@ -18,9 +18,7 @@ import org.web3j.protocol.Web3j
 import org.web3j.protocol.admin.methods.response.PersonalSign
 import org.web3j.protocol.core.DefaultBlockParameterName
 import org.web3j.protocol.core.methods.request.Transaction.createEtherTransaction
-import org.web3j.protocol.core.methods.response.EthAccounts
-import org.web3j.protocol.core.methods.response.EthChainId
-import org.web3j.protocol.core.methods.response.EthGetCode
+import org.web3j.protocol.core.methods.response.*
 import org.web3j.protocol.geth.Geth
 import org.web3j.tx.gas.StaticGasProvider
 import org.web3j.utils.Convert
@@ -135,8 +133,20 @@ class EthFragment: Fragment() {
         try {
             val value: BigInteger =  Convert.toWei("0.5", Convert.Unit.ETHER).toBigInteger()
             val transaction = createEtherTransaction(account, BigInteger("1"), BigInteger("21000"), BigInteger("21000"), account, value)
-            val receipt = web3j.ethSendTransaction(transaction).send()
-            mainTabActivity.toastAsync("Transaction complete: " + receipt.transactionHash)
+            val receipt = web3j.ethSendTransaction(transaction).sendAsync()
+            receipt.whenComplete  { r: EthSendTransaction?, error: Throwable? ->
+                Log.d("version", r.toString())
+                if (error != null) {
+                    Log.d("error", error.localizedMessage)
+                }
+                if (r != null && !r.hasError()) {
+                    Log.d("Transaction complete: ", r.transactionHash)
+                    mainTabActivity.toastAsync("Transaction complete: " + r.transactionHash)
+                } else {
+                    Log.d("login", "Transaction Incomplete")
+                }
+            }
+
         } catch (e: Exception) {
             Log.e("Error", e.localizedMessage)
         }
@@ -177,18 +187,39 @@ class EthFragment: Fragment() {
 
     fun personSign(view: View) {
         val message = "Magic!!!"
-        val personalSign: PersonalSign = gethWeb3j.personalSign(
+        val personalSign = gethWeb3j.personalSign(
                 message, account, "123")
-                .send()
-        mainTabActivity.toastAsync("Signed Message: " + personalSign.signedMessage)
+                .sendAsync()
+        personalSign.whenComplete { ps: PersonalSign, error: Throwable? ->
+            Log.d("version", ps.signedMessage)
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (!ps.hasError()) {
+                Log.d("Personal Sign", ps.signedMessage)
+                mainTabActivity.toastAsync("Signed Message: " + ps.signedMessage)
 
-        val recovered = gethWeb3j.personalEcRecover(message, personalSign.signedMessage).send()
-        mainTabActivity.toastAsync("Recovered Address: " + recovered.recoverAccountId)
+                val recovered = gethWeb3j.personalEcRecover(message, ps.signedMessage).send()
+                mainTabActivity.toastAsync("Recovered Address: " + recovered.recoverAccountId)
+            } else {
+                Log.d("login", "Unable to login")
+            }
+        }
     }
 
     fun ethSign(view: View) {
-        val signedMessage = web3j.ethSign(account, "Hello world").send()
-        mainTabActivity.toastAsync("Signature: " + signedMessage.signature)
+        val signedMessage = web3j.ethSign(account, "Hello world").sendAsync()
+        signedMessage.whenComplete  { sig: EthSign?, error: Throwable? ->
+            if (error != null) {
+                mainTabActivity.toastAsync("Error: $error")
+            }
+            if (sig != null && !sig.hasError()) {
+                mainTabActivity.toastAsync("Signature: " + sig.signature)
+            } else {
+                Log.d("Error", "Something went wrong")
+            }
+        }
+
     }
 
     fun signTypedDataLegacy(v: View) {
