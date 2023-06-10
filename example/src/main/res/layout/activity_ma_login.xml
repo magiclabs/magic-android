@@ -6,16 +6,26 @@
     android:orientation="vertical"
     tools:context="link.magic.demo.MainActivity">
 
+        <Button
+            android:id="@+id/mc_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp"
+            android:text="@string/mc_login" />
+
         <EditText
             android:id="@+id/email_input"
             android:layout_width="298dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:hint="@string/phone_hint"
             android:layout_marginTop="25dp"
+            android:layout_below="@+id/mc_login_btn"
+            android:autofillHints="email"
+            android:hint="@string/phone_hint"
             android:inputType="textEmailAddress"
-            android:text="@string/default_email"
-            android:autofillHints="email" />
+            android:minHeight="48dp"
+            android:text="@string/default_email" />
 
         <Button
             android:id="@+id/email_login_btn"
@@ -45,6 +55,7 @@
             android:autofillHints="phone"
             android:hint="@string/phone_hint"
             android:inputType="phone"
+            android:minHeight="48dp"
             android:text="@string/default_phoneNumber" />
 
         <Button
@@ -59,9 +70,9 @@
         <Spinner
             android:id="@+id/provider_spinner"
             android:layout_width="298dp"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
+            android:layout_height="48dp"
             android:layout_below="@+id/sms_login_btn"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp" />
 
         <Button
@@ -81,7 +92,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:hint="@string/provider_id_hint"
-            android:inputType="text" />
+            android:inputType="text"
+            android:minHeight="48dp" />
+
         <EditText
             android:id="@+id/jwt_text"
             android:layout_width="298dp"
@@ -90,7 +103,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:hint="@string/jwt_hint"
-            android:inputType="text" />
+            android:inputType="text"
+            android:minHeight="48dp" />
         <Button
             android:id="@+id/openId_login_btn"
             android:layout_width="150dp"
@@ -110,6 +124,7 @@
             android:autofillHints="phone"
             android:hint="@string/recovery_email_hint"
             android:inputType="textEmailAddress"
+            android:minHeight="48dp"
             android:text="@string/default_email" />
 
         <Button
@@ -121,13 +136,4 @@
             android:layout_marginTop="10dp"
             android:text="@string/recover_account" />
 
-        <Button
-            android:id="@+id/mc_login_btn"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/recover_account_btn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@string/mc_login" />
-          
 </RelativeLayout>
