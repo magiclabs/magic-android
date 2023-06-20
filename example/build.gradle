@@ -45,7 +45,7 @@ dependencies {
 //    implementation project(':magic:core')
 //    implementation project(':magic:ext:oauth')
 //    implementation project(':magic:ext:oidc')
-    implementation 'link.magic:magic-android:[8.0,9.0['
+    implementation 'link.magic:magic-android:[9.0,10.0['
     implementation 'link.magic:magic-ext-oauth:[4.0,5.0['
     implementation 'link.magic:magic-ext-oidc:[2.0,3.0['
     implementation "org.web3j:core:$web3j_version"
