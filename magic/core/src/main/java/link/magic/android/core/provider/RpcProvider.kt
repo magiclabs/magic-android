@@ -11,7 +11,7 @@ import io.reactivex.Flowable
 import link.magic.android.Magic
 import link.magic.android.core.relayer.WebViewWrapper
 import link.magic.android.core.relayer.message.OutboundMessageType
-import link.magic.android.core.relayer.message.RequestData
+import link.magic.android.core.relayer.message.MagicRequestData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.utils.GsonExtension
 import link.magic.android.utils.Number
@@ -111,7 +111,7 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
 
         val result = CompletableFuture<T>()
         val rpcPayload = RequestForSerialization(requestPayload.method, requestPayload.params, newRandomId)
-        val request = RequestData(rpcPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams);
+        val request = MagicRequestData(rpcPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams);
 
         // Serialize class to Json Object
         val message =  GsonExtension()
