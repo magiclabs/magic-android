@@ -40,6 +40,7 @@ dependencies {
     implementation "com.google.code.gson:gson:$gson_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
 }
 
 apply from: 'deploy.gradle'

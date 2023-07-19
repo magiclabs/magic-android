@@ -15,7 +15,7 @@ class Magic private constructor(applicationContext: Context, urlBuilder: URLBuil
     companion object {
         var debugEnabled = false
         var defaultLocale = "${Locale.getDefault().language}_${Locale.getDefault().country}"
-        val TAG: String? = "${Magic::class.java.getName()}"
+        val TAG: String? = Magic::class.java.name
         val LOG_WARN_MSG: String = "This extension only works with Magic Auth API Keys"
     }
 
