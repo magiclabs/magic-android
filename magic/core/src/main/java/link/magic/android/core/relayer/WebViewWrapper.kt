@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import link.magic.android.Magic
 import link.magic.android.core.relayer.message.InboundMessageType
+import link.magic.android.core.relayer.message.ReceivedMessage
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.utils.Debouncer
@@ -117,8 +118,8 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     }
 
     /**
-     * Receive message in JS
-     * This function name will be called in JS message box relayer
+     * Receive a message in JS via a JavaScript interface.
+     * This function will be called in the JS message box relayer.
      */
     @JavascriptInterface
     fun postMessage(message: String) {
@@ -127,10 +128,14 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
         }
 
         /* Deserialize without extended typing first to get msgType and id */
-        val response = Gson().fromJson<ResponseData<Response<*>>>(message, object: TypeToken<ResponseData<Response<*>>>(){}.type)
+        val response = Gson().fromJson<ResponseData<Response<*>>>(
+            message,
+            object : TypeToken<ResponseData<Response<*>>>() {}.type
+        )
+
         when {
             InboundMessageType.MAGIC_OVERLAY_READY.toString() in response.msgType -> {
-                // In the case there's a missed message, re-queue it at the top of the stack
+                // In case there's a missed message, re-queue it at the top of the stack
                 missedMessage?.let {
                     queue.add(0, it)
                     missedMessage = null
@@ -147,11 +152,24 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 resetContext()
             }
             InboundMessageType.MAGIC_MG_BOX_SEND_RECEIPT.toString() in response.msgType -> {
-                // When a receipt is received cancel previously invoked debounce call
+                // When a receipt is received, cancel previously invoked debounce call
                 debouncer.cancel()
+            }
+            InboundMessageType.MAGIC_SEND_PRODUCT_TYPE.toString() in response.msgType -> {
+                val TAG: String = "Magic SDK ${WebViewWrapper::class.java.name}"
+                val UW_WARN_MSG: String =
+                    "Usage of Universal Wallet API Keys will be removed from magic-android in version `v10.0.0`. Use a Dedicated Wallet API Key instead to prevent disruption of the wallet service."
+
+                val productMessage = Gson().fromJson<ReceivedMessage>(message, ReceivedMessage::class.java)
+                val productType = productMessage.response.product_type
+
+                if (productType == "connect") {
+                    Log.w(TAG, UW_WARN_MSG)
+                }
             }
         }
     }
+
 
     /**
      * Webview display related
