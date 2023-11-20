@@ -158,7 +158,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
      */
     private fun loginViaSocialProviders(view: View) {
         val configuration = OAuthConfiguration(OAuthProvider.values()[selectedListIndex], "link.magic.demo://callback")
-        val data = (magic as Magic).oauth.loginWithPopup(this, configuration)
+        val data = (magic as Magic).oauth.loginWithRedirect(this, configuration)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

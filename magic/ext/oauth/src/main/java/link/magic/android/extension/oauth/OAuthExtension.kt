@@ -41,7 +41,7 @@ class OAuthExtension(rpcProvider: RpcProvider): BaseModule(rpcProvider) {
     /**
      * OAuth extension interface
      */
-    fun loginWithPopup(context: Context, configuration: OAuthConfiguration): Boolean {
+    fun loginWithRedirect(context: Context, configuration: OAuthConfiguration): Boolean {
 
         // configuration
         this.oauthChallenge = OAuthChallenge()
