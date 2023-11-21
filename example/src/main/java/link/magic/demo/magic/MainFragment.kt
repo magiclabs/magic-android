@@ -41,9 +41,9 @@ class MainFragment: Fragment() {
         generateIdTokenButton.setOnClickListener {
             generateIdToken(it)
         }
-        val getMetadataButton : Button = inflatedView.findViewById(R.id.get_metadata)
-        getMetadataButton.setOnClickListener {
-            getMetadata(it)
+        val getInfoButton : Button = inflatedView.findViewById(R.id.get_info)
+        getInfoButton.setOnClickListener {
+            getInfo(it)
         }
         val updateEmailButton : Button = inflatedView.findViewById(R.id.update_email)
         updateEmailButton.setOnClickListener {
@@ -101,14 +101,15 @@ class MainFragment: Fragment() {
         }
     }
 
-    fun getMetadata(v: View) {
-        val completable = magic.user.getMetadata(this.requireActivity())
-        completable.whenComplete { response: GetMetadataResponse?, error: Throwable? ->
+    fun getInfo(v: View) {
+        val completable = magic.user.getInfo(this.requireActivity())
+        completable.whenComplete { response: GetInfoResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
             }
             if (response != null) {
-                tabActivity.toastAsync("Email: " + response.result.email + "\n" + "issuer: " + response.result.issuer + "\n")
+                Log.i("user info response", response.result.toString())
+                tabActivity.toastAsync(response.result.toString())
             }
         }
     }
@@ -155,7 +156,7 @@ class MainFragment: Fragment() {
      */
     private fun showMFA() {
         val result = (magic as Magic).user.showSettings(this.requireContext())
-        result.whenComplete { response: GetMetadataResponse?, error: Throwable? ->
+        result.whenComplete { response: GetInfoResponse?, error: Throwable? ->
             if (error != null) {
                 Log.d("error", error.localizedMessage)
             }
