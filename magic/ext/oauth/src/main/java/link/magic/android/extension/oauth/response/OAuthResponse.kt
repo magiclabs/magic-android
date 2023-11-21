@@ -1,7 +1,7 @@
 package link.magic.android.extension.oauth.response
 
 import androidx.annotation.Keep
-import link.magic.android.modules.user.response.UserMetadataResponse
+import link.magic.android.modules.user.response.UserInfoResponse
 import org.web3j.protocol.core.Response
 
 @Keep
@@ -25,5 +25,5 @@ class OAuthPartialResult {
 @Keep
 class MagicPartialResult {
     var idToken: String? = null
-    lateinit var userMetadata: UserMetadataResponse;
+    lateinit var userInfo: UserInfoResponse;
 }

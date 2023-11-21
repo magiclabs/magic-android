@@ -4,4 +4,4 @@ import androidx.annotation.Keep
 import org.web3j.protocol.core.Response
 
 @Keep
-class GetMetadataResponse: Response<UserMetadataResponse>()
+class GetInfoResponse: Response<UserInfoResponse>()
