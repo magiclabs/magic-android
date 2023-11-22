@@ -14,7 +14,7 @@
     <string name="magic_auth">Magic Auth</string>
 
     <string name="logout">Logout</string>
-    <string name="get_metadata">Get Metadata</string>
+    <string name="get_info">Get Info</string>
     <string name="update_email">Update Email</string>
     <string name="update_sms">Update SMS</string>
     <string name="is_logged_in">Is Logged In</string>
