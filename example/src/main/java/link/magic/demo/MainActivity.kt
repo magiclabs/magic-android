@@ -8,7 +8,7 @@ import link.magic.android.modules.user.response.IsLoggedInResponse
 
 
 open class MainActivity : UtilActivity() {
-    lateinit var magic: Any
+    lateinit var magic: Magic
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

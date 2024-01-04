@@ -31,7 +31,7 @@ class EthFragment: Fragment() {
     private lateinit var mainTabActivity: MainTabActivity
     private lateinit var web3j: Web3j
     private lateinit var gethWeb3j: Geth
-    private lateinit var magic: Any
+    private lateinit var magic: Magic
 
     private lateinit var inflatedView: View
 

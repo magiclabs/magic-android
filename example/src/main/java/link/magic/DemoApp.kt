@@ -6,7 +6,7 @@ import link.magic.android.Magic.Companion.debugEnabled
 
 class DemoApp : Application() {
 
-    lateinit var magic: Any
+    lateinit var magic: Magic
     override fun onCreate() {
 
         magic = Magic(this, "YOUR_MAGIC_PUBLISHABLE_KEY")
