@@ -13,4 +13,11 @@ class DemoApp : Application() {
         debugEnabled = true
         super.onCreate()
     }
+
+    override fun onTerminate() {
+        super.onTerminate()
+
+        // Set magic instance to null to avoid memory leaks.
+        magic = null as Magic
+    }
 }
