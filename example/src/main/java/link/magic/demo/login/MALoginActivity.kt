@@ -27,7 +27,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
     private val providersList: List<String> = OAuthProvider.values().map {
         it.toString()
     }
-    lateinit var magic: Any
+    lateinit var magic: Magic
     var selectedListIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
