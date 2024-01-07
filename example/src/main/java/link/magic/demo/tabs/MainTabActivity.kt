@@ -5,12 +5,13 @@ import android.view.View
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import link.magic.DemoApp
+import link.magic.android.Magic
 import link.magic.demo.R
 import link.magic.demo.UtilActivity
 
 class MainTabActivity : UtilActivity(){
 
-    lateinit var magic: Any
+    lateinit var magic: Magic
 
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
