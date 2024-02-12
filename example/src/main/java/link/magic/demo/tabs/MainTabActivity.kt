@@ -21,6 +21,7 @@ class MainTabActivity : UtilActivity(){
         setContentView(R.layout.activity_tab_layout)
         renderTab()
         magic = (applicationContext as DemoApp).magic
+        magic.setContext(this)
     }
 
     private fun renderTab () {

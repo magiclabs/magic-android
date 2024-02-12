@@ -53,11 +53,11 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
      * get and setter Context for UI views to be displayed
      */
     var context: Context = overlay.mMutableContext.baseContext
-    set(newCtx) {
-        overlay.setContext(newCtx)
-        // Oauth extension requires access to context here, otherwise we would need to make the WebView public
-        field = newCtx
-    }
+        set(newCtx) {
+            overlay.setContext(newCtx)
+            // Oauth extension requires access to context here, otherwise we would need to make the WebView public
+            field = newCtx
+        }
 
 
     @Throws(IOException::class)
