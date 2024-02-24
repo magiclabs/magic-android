@@ -57,6 +57,12 @@ class Magic private constructor(applicationContext: Context, urlBuilder: URLBuil
     // Custom Node Initializer
     constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, locale: String = defaultLocale)
             : this(ctx, URLBuilder(apiKey, customNodeConfiguration, locale, ctx.packageName))
+
+    // Method to change the activity context when needed
+    fun setContext(newContext: Context) {
+        rpcProvider.context = newContext
+    }
+
 }
 
 enum class EthNetwork {
