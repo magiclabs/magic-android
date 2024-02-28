@@ -22,7 +22,7 @@ import androidx.webkit.WebViewFeature.WEB_MESSAGE_PORT_POST_MESSAGE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import link.magic.android.Magic
-import link.magic.android.core.relayer.message.AnnouncementMessage
+import link.magic.android.core.relayer.message.AnnouncementResponse
 import link.magic.android.core.relayer.message.InboundMessageType
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
@@ -153,7 +153,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
             }
             InboundMessageType.MAGIC_SEND_PRODUCT_ANNOUNCEMENT.toString() in response.msgType -> {
                 val TAG: String = "Magic SDK ${WebViewWrapper::class.java.name}"
-                val announcement = Gson().fromJson<AnnouncementMessage>(message, AnnouncementMessage::class.java)
+                val announcement = Gson().fromJson<ResponseData<AnnouncementResponse>>(message, AnnouncementResponse::class.java)
                 Log.w(TAG, announcement.response.result.product_announcement)
             }
         }
