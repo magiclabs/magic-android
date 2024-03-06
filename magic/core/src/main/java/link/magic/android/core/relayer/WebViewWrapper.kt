@@ -22,6 +22,7 @@ import androidx.webkit.WebViewFeature.WEB_MESSAGE_PORT_POST_MESSAGE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import link.magic.android.Magic
+import link.magic.android.core.relayer.message.AnnoucementResult
 import link.magic.android.core.relayer.message.InboundMessageType
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
@@ -147,8 +148,14 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 resetContext()
             }
             InboundMessageType.MAGIC_MG_BOX_SEND_RECEIPT.toString() in response.msgType -> {
-                // When a receipt is received cancel previously invoked debounce call
+                // When a receipt is received, cancel previously invoked debounce call
                 debouncer.cancel()
+            }
+            InboundMessageType.MAGIC_SEND_PRODUCT_ANNOUNCEMENT.toString() in response.msgType -> {
+                val TAG: String = "Magic SDK ${WebViewWrapper::class.java.name}"
+                val type = object : TypeToken<ResponseData<Response<AnnoucementResult>>>() {}.type
+                val announcement = Gson().fromJson<ResponseData<Response<AnnoucementResult>>>(message, type)
+                Log.w(TAG, announcement.response.result.product_announcement)
             }
         }
     }
