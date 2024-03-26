@@ -15,6 +15,7 @@ import link.magic.android.extension.oidc.openid
 import link.magic.android.extension.oidc.requestConfiguration.OpenIdConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithEmailOTPConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithSMSConfiguration
+import link.magic.android.modules.auth.requestConfiguration.OverridesConfiguration
 import link.magic.android.modules.auth.response.DIDToken
 import link.magic.android.modules.user.requestConfiguration.RecoverAccountConfiguration
 import link.magic.android.modules.user.response.IsLoggedInResponse
@@ -136,7 +137,8 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
      */
     private fun loginWithEmailOTP(v: View) {
         val email = findViewById<EditText>(R.id.email_input)
-        val configuration = LoginWithEmailOTPConfiguration(email.text.toString())
+        val overrides = OverridesConfiguration(variation = "1234");
+        val configuration = LoginWithEmailOTPConfiguration(email.text.toString(), overrides)
         val result = (magic as Magic).auth.loginWithEmailOTP(this, configuration)
         toastAsync("Logging in...")
         result.whenComplete { token: DIDToken?, error: Throwable? ->
