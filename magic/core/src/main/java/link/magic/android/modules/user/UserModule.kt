@@ -62,4 +62,10 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
                 val request = Request(Method.MAGIC_AUTH_RECOVER_ACCOUNT.toString(), listOf(configuration), provider, RecoverAccountResponse::class.java)
                 return provider.sendAsync(request, RecoverAccountResponse::class.java)
         }
+
+        fun revealPrivateKey(context: Context): CompletableFuture<RevealPrivateKeyResponse> {
+                provider.context = context
+                val request = Request(Method.MAGIC_REVEAL_KEY.toString(), emptyList<String>(), provider, RevealPrivateKeyResponse::class.java)
+                return provider.sendAsync(request, RevealPrivateKeyResponse::class.java)
+        }
 }
