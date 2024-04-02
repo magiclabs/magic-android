@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Magic Android Demo</string>
     <string name="phone_hint">Enter your phone</string>
-    <string name="recovery_email_hint">Enter your email</string>
+    <string name="email_hint">Enter your email</string>
     <string name="login">Email Login</string>
     <string name="recover_account">Recover Account</string>
     <string name="email_otp_login">Email OTP Login</string>
@@ -19,6 +19,7 @@
     <string name="update_sms">Update SMS</string>
     <string name="is_logged_in">Is Logged In</string>
     <string name="show_settings">Show Settings</string>
+    <string name="reveal_private_key">Reveal Private Key</string>
     <string name="generate_id_token">Generate ID Token</string>
     <string name="send_transaction">Send Transaction</string>
     <string name="get_coinbase">Get Coinbase</string>

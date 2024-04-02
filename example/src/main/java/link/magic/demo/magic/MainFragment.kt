@@ -61,6 +61,10 @@ class MainFragment: Fragment() {
         showMfaButton.setOnClickListener {
             showMFA()
         }
+        val revealPrivateKeyButton : Button = inflatedView.findViewById(R.id.reveal_private_key)
+        revealPrivateKeyButton.setOnClickListener {
+            revealPrivateKey()
+        }
         val logoutButton : Button = inflatedView.findViewById(R.id.logout)
         logoutButton.setOnClickListener {
             logout(it)
@@ -166,6 +170,17 @@ class MainFragment: Fragment() {
         }
     }
 
+    fun revealPrivateKey() {
+        val result = (magic as Magic).user.revealPrivateKey(this.requireContext())
+        result.whenComplete { response: RevealPrivateKeyResponse?, error: Throwable? ->
+            if (error != null) {
+                Log.d("error", error.localizedMessage)
+            }
+            if (response != null) {
+                tabActivity.toastAsync("Key revealed")
+            }
+        }
+    }
 
     fun logout(v: View) {
         tabActivity.toastAsync("Logging out...")
