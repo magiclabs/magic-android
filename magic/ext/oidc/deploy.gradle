@@ -70,15 +70,15 @@ afterEvaluate {
             }
         }
         repositories {
-//            maven {
-//                def releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-//                def snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-//                url = VERSION_NAME.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-//                credentials {
-//                    username = NEXUS_USERNAME
-//                    password = NEXUS_PASSWORD
-//                }
-//            }
+            maven {
+                def releasesRepoUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                def snapshotsRepoUrl = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                url = VERSION_NAME.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username = NEXUS_USERNAME
+                    password = NEXUS_PASSWORD
+                }
+            }
         }
     }
 
