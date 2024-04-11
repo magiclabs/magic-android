@@ -11,6 +11,7 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.LinearLayout
@@ -165,11 +166,17 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
      */
     private fun showOverlay() {
         runOnUiThread {
-            if (it is Activity) {
+            if (it is Activity && !it.isFinishing && !it.isDestroyed) {
                 webView.visibility = View.VISIBLE
                 webViewDialog = WebViewDialog(it, webView)
-
-                webViewDialog?.show()
+                try {
+                    webViewDialog?.show()
+                } catch (e: WindowManager.BadTokenException) {
+                    // Handle the exception gracefully
+                    if (Magic.debugEnabled) {
+                        Log.d("Magic", "showOverlay failed due to BadTokenException: ${e.message}")
+                    }
+                }
             } else {
                 if (Magic.debugEnabled) {
                     Log.d("Magic", "showOverlay failed, Please pass Activity Context to API Call")
