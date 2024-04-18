@@ -17,7 +17,7 @@
                     android:layout_width="298dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:hint="@string/phone_hint"
+                    android:hint="@string/email_hint"
                     android:layout_marginTop="25dp"
                     android:inputType="textEmailAddress"
                     android:text="@string/default_email"
@@ -105,7 +105,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:autofillHints="phone"
-                    android:hint="@string/recovery_email_hint"
+                    android:hint="@string/email_hint"
                     android:inputType="textEmailAddress"
                     android:text="@string/default_email" />
 
