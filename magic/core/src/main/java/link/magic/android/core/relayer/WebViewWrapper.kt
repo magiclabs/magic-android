@@ -187,15 +187,23 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
 
     private fun hideOverlay() {
         runOnUiThread {
-            if (webView.parent != null) {
-                val vg = (webView.parent as ViewGroup)
-                vg.removeView(webView)
+            if (it is Activity && !it.isFinishing && !it.isDestroyed) {
+                if (webView.parent != null) {
+                    val vg = (webView.parent as ViewGroup)
+                    vg.removeView(webView)
+                }
+                webView.visibility = View.INVISIBLE
+                try {
+                    webViewDialog?.dismiss()
+                } catch (e: Exception) {
+                    // Handle the exception gracefully
+                    if (Magic.debugEnabled) {
+                        Log.d("Magic", "hideOverlay failed due to Exception: ${e.message}")
+                    }
+                }
             }
-            webView.visibility = View.INVISIBLE
-            webViewDialog?.dismiss()
         }
     }
-
 
     /**
      * Util:
