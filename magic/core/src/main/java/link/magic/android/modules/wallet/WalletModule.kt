@@ -21,9 +21,9 @@ class WalletModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         val request = Request(Method.MC_GET_WALLET_INFO.toString(), emptyList<String>(), provider, WalletInfoResponse::class.java)
         return provider.sendAsync(request, WalletInfoResponse::class.java)
     }
-    fun showUI(context: Context): CompletableFuture<ShowWalletResponse> {
+    fun showUI(context: Context, onramperParams: Map<String, String> = emptyMap()): CompletableFuture<ShowWalletResponse> {
         provider.context = context
-        val request = Request(Method.MC_WALLET.toString(), emptyList<String>(), provider, ShowWalletResponse::class.java)
+        val request = Request(Method.MC_WALLET.toString(), listOf( mapOf("onramperParams" to onramperParams) ), provider, ShowWalletResponse::class.java)
         return provider.sendAsync(request, ShowWalletResponse::class.java)
     }
     fun requestUserInfoWithUI(context: Context, configuration: RequestUserInfoWithUIConfiguration?): CompletableFuture<RequestUserInfoWithUIResponse> {
