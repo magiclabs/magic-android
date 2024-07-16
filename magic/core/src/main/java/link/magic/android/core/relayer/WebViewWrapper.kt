@@ -12,7 +12,9 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
+import android.webkit.WebStorage
 import android.webkit.WebView
 import android.widget.LinearLayout
 import androidx.webkit.WebMessageCompat
@@ -154,6 +156,37 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 val type = object : TypeToken<ResponseData<Response<AnnoucementResult>>>() {}.type
                 val announcement = Gson().fromJson<ResponseData<Response<AnnoucementResult>>>(message, type)
                 Log.w(TAG, announcement.response.result.product_announcement)
+            }
+        }
+    }
+
+    /**
+     * Attempt to clear all webview storage/cache, do nothing if exception is thrown.
+     */
+    fun clearWebviewStorage() {
+        runOnUiThread {
+            if (it is Activity && !it.isFinishing && !it.isDestroyed) {
+                try {
+                    // Clear all the Application Cache, Web SQL Database, and the HTML5 Web Storage
+                    WebStorage.getInstance().deleteAllData()
+
+                    // Clear all the cookies
+                    CookieManager.getInstance().removeAllCookies(null)
+                    CookieManager.getInstance().flush()
+
+                    // Clear WebView data
+                    webView.clearCache(true);
+                    webView.clearFormData();
+                    webView.clearHistory();
+                } catch (e: Exception) {
+                    if (Magic.debugEnabled) {
+                        Log.d("Magic", "clearWebviewStorage failed")
+                    }
+                }
+            } else {
+                if (Magic.debugEnabled) {
+                    Log.d("Magic", "showOverlay failed, Please pass Activity Context to API Call")
+                }
             }
         }
     }
