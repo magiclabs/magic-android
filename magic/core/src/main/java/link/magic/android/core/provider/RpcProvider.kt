@@ -1,11 +1,8 @@
 package link.magic.android.core.provider
 
-import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.util.Log.DEBUG
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.google.gson.Gson
 import io.reactivex.Flowable
 import link.magic.android.Magic
@@ -137,5 +134,9 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
         throw UnsupportedOperationException(String.format(
                 "Magic-SDK: Service %s does not support Close function",
                 this.javaClass.simpleName))
+    }
+
+    fun clearWebViewStorage() {
+        overlay.clearWebviewStorage()
     }
 }

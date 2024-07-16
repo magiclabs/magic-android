@@ -49,7 +49,13 @@ class UserModule(rpcProvider: RpcProvider) : BaseModule(rpcProvider) {
         fun logout(context: Context): CompletableFuture<LogoutResponse> {
                 provider.context = context
                 val request = Request(Method.MAGIC_AUTH_LOGOUT.toString(), emptyList<String>(), provider, LogoutResponse::class.java)
-                return provider.sendAsync(request, LogoutResponse::class.java)
+                return provider.sendAsync(request, LogoutResponse::class.java).thenApply { response ->
+                        if (response.result === true) {
+                                provider.clearWebViewStorage()
+                        }
+
+                        response
+                }
         }
         fun updatePhoneNumber(context: Context): CompletableFuture<UpdatePhoneNumberResponse> {
                 provider.context = context
