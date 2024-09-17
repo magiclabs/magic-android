@@ -10,5 +10,6 @@ internal class CustomNodeBaseOptions internal constructor(
     @SerializedName("ETH_NETWORK") @Expose val network: CustomNodeConfiguration,
     mgboxHost: String,
     locale: String,
-    bundleId: String
-) : BaseOptions(apiKey, mgboxHost, locale, bundleId)
+    bundleId: String,
+    meta: Map<String, Any>
+) : BaseOptions(apiKey, mgboxHost, locale, bundleId, meta)

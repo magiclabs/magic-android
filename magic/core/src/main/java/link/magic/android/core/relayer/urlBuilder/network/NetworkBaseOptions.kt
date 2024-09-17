@@ -11,5 +11,6 @@ internal class NetworkBaseOptions(
     @SerializedName("ETH_NETWORK") @Expose val network: String,
     mgboxHost: String,
     locale: String,
-    bundleId: String
-) : BaseOptions(apiKey, mgboxHost, locale, bundleId)
+    bundleId: String,
+    meta: Map<String, Any>
+) : BaseOptions(apiKey, mgboxHost, locale, bundleId, meta)

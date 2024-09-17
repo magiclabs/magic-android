@@ -26,6 +26,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import link.magic.android.Magic
 import link.magic.android.core.relayer.message.AnnoucementResult
+import link.magic.android.core.relayer.message.Event
 import link.magic.android.core.relayer.message.InboundMessageType
 import link.magic.android.core.relayer.message.ResponseData
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
@@ -46,6 +47,8 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
 
     private var overlayReady = false
     private val queue: MutableList<String> = ArrayList()
+
+    private var magicEventListener: MagicEventListener? = null;
 
     private var messageHandlers: HashMap<Long, (responseString: String) -> Unit> = HashMap()
 
@@ -156,6 +159,13 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 val type = object : TypeToken<ResponseData<Response<AnnoucementResult>>>() {}.type
                 val announcement = Gson().fromJson<ResponseData<Response<AnnoucementResult>>>(message, type)
                 Log.w(TAG, announcement.response.result.product_announcement)
+            }
+
+            ("MAGIC_HANDLE_EVENT" in response.msgType) -> {
+                // Notify the developer's listener
+                val type = object : TypeToken<ResponseData<Response<Event>>>() {}.type
+                val event = Gson().fromJson<ResponseData<Response<Event>>>(message, type)
+                magicEventListener?.onMagicEvent(event.response.result.event, message)
             }
         }
     }
@@ -269,5 +279,9 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 throw IllegalArgumentException("Initializing context should be application context ")
             }
         }
+    }
+
+    fun setMagicEventListener(listener: MagicEventListener) {
+        this.magicEventListener = listener
     }
 }

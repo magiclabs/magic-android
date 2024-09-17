@@ -31,8 +31,8 @@ class URLBuilder private constructor(var options: BaseOptions, val apiKey: Strin
         private const val mgboxHost = "https://box.magic.link"
     }
 
-    internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String)
-            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId), apiKey)
-    internal constructor(apiKey: String, network: EthNetwork, locale: String, bundleId: String)
-            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId), apiKey)
+    internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String, meta: Map<String, Any>)
+            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId, meta), apiKey)
+    internal constructor(apiKey: String, network: EthNetwork, locale: String, bundleId: String, meta: Map<String, Any>)
+            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId, meta), apiKey)
 }

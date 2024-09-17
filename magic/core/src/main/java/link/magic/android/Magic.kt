@@ -5,6 +5,7 @@ import link.magic.android.core.provider.RpcProvider
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.core.relayer.urlBuilder.network.CustomNodeConfiguration
 import link.magic.android.modules.auth.AuthModule
+import link.magic.android.modules.events.EventModule
 import link.magic.android.modules.user.UserModule
 import link.magic.android.modules.wallet.WalletModule
 import link.magic.android.modules.web3j.signTypedData.SignTypedDataExtension
@@ -46,17 +47,26 @@ class Magic private constructor(applicationContext: Context, urlBuilder: URLBuil
      */
     val wallet = WalletModule(rpcProvider)
 
+    /**
+     * Contains methods for listening/emitting events from/to Magic.
+     */
+    val events = EventModule(rpcProvider)
+
     // Default initializer
     constructor(ctx:Context, apiKey: String, locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName))
+            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName, emptyMap()))
+
+    // Meta initializer
+    constructor(ctx:Context, apiKey: String, meta: Map<String, Any>, locale: String = defaultLocale)
+            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName, meta))
 
     // Eth Network initializer
     constructor(ctx:Context, apiKey: String, ethNetwork: EthNetwork, locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, ethNetwork, locale, ctx.packageName))
+            : this(ctx, URLBuilder(apiKey, ethNetwork, locale, ctx.packageName, emptyMap()))
 
     // Custom Node Initializer
-    constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, customNodeConfiguration, locale, ctx.packageName))
+    constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, meta: Map<String, String> = emptyMap(), locale: String = defaultLocale)
+            : this(ctx, URLBuilder(apiKey, customNodeConfiguration, locale, ctx.packageName, meta))
 
     // Method to change the activity context when needed
     fun setContext(newContext: Context) {

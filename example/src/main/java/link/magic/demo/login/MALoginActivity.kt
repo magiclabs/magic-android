@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import link.magic.DemoApp
 import link.magic.android.Magic
+import link.magic.android.core.relayer.MagicEventListener
 import link.magic.android.extension.oauth.oauth
 import link.magic.android.extension.oauth.requestConfiguration.OAuthConfiguration
 import link.magic.android.extension.oauth.requestConfiguration.OAuthProvider
@@ -24,7 +25,7 @@ import link.magic.android.modules.wallet.response.ConnectWithUIResponse
 import link.magic.demo.R
 import link.magic.demo.UtilActivity
 
-class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
+class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener, MagicEventListener {
     private val providersList: List<String> = OAuthProvider.values().map {
         it.toString()
     }
@@ -34,6 +35,7 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         magic = (applicationContext as DemoApp).magic
+        magic.rpcProvider.setMagicEventListener(this)
         setContentView(R.layout.activity_ma_login)
 
         val recoverAccountButton: Button = findViewById<Button>(R.id.recover_account_btn)
@@ -246,6 +248,12 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener {
                 Log.i("mcLogin RESPONSE", "Response is: ${response.toString()}")
                 Log.d("MC Login", "Magic Connect Not logged in")
             }
+        }
+    }
+
+    override fun onMagicEvent(eventType: String, data: String) {
+        if (eventType == magic.events.CLOSED_BY_USER_EVENT) {
+            magic.events.emit(magic.events.CLOSE_MAGIC_WINDOW_EVENT, this)
         }
     }
 
