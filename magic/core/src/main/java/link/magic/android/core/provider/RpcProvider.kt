@@ -6,9 +6,10 @@ import android.util.Log.DEBUG
 import com.google.gson.Gson
 import io.reactivex.Flowable
 import link.magic.android.Magic
+import link.magic.android.core.relayer.MagicEventListener
 import link.magic.android.core.relayer.WebViewWrapper
-import link.magic.android.core.relayer.message.OutboundMessageType
 import link.magic.android.core.relayer.message.MagicRequestData
+import link.magic.android.core.relayer.message.OutboundMessageType
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.utils.GsonExtension
 import link.magic.android.utils.Number
@@ -43,6 +44,10 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
             field = newCtx
         }
 
+
+    fun setMagicEventListener(listener: MagicEventListener) {
+        overlay.setMagicEventListener(listener)
+    }
 
     @Throws(IOException::class)
     override fun <T : Response<*>> send(

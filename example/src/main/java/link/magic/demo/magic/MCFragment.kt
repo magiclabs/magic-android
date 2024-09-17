@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import link.magic.android.Magic
+import link.magic.android.core.relayer.MagicEventListener
 import link.magic.android.modules.wallet.requestConfiguration.RequestUserInfoWithUIConfiguration
 import link.magic.android.modules.wallet.requestConfiguration.WalletUserInfoEmailOptions
 import link.magic.android.modules.wallet.requestConfiguration.WalletUserInfoScope
@@ -21,7 +22,7 @@ import link.magic.demo.login.MALoginActivity
 import link.magic.demo.tabs.MainTabActivity
 
 
-class MCFragment: Fragment() {
+class MCFragment: Fragment(), MagicEventListener {
 
     private lateinit var tabActivity: MainTabActivity
     private lateinit var magic: Magic
@@ -36,6 +37,7 @@ class MCFragment: Fragment() {
         // Inflate the layout for this fragment
         tabActivity = requireActivity() as MainTabActivity
         magic = tabActivity.magic as Magic
+        magic.rpcProvider.setMagicEventListener(this)
 
         inflatedView =  inflater.inflate(R.layout.tab_mc, container, false)
 
@@ -112,6 +114,12 @@ class MCFragment: Fragment() {
                 val intent = Intent(activity, MALoginActivity::class.java)
                 startActivity(intent)
             }
+        }
+    }
+
+    override fun onMagicEvent(eventType: String, data: String) {
+        if (eventType == magic.events.CLOSED_BY_USER_EVENT) {
+            magic.events.emit(magic.events.CLOSE_MAGIC_WINDOW_EVENT, this.requireContext())
         }
     }
 }
