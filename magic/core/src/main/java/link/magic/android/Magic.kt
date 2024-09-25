@@ -65,7 +65,7 @@ class Magic private constructor(applicationContext: Context, urlBuilder: URLBuil
             : this(ctx, URLBuilder(apiKey, ethNetwork, locale, ctx.packageName, emptyMap()))
 
     // Custom Node Initializer
-    constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, meta: Map<String, String> = emptyMap(), locale: String = defaultLocale)
+    constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, meta: Map<String, Any> = emptyMap(), locale: String = defaultLocale)
             : this(ctx, URLBuilder(apiKey, customNodeConfiguration, locale, ctx.packageName, meta))
 
     // Method to change the activity context when needed
