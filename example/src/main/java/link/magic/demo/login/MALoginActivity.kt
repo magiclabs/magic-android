@@ -252,8 +252,8 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener, Magi
     }
 
     override fun onMagicEvent(eventType: String, data: String) {
-        if (eventType == magic.events.CLOSED_BY_USER_EVENT) {
-            magic.events.emit(magic.events.CLOSE_MAGIC_WINDOW_EVENT, this)
+        if (eventType == magic.events.CLOSED_BY_USER) {
+            magic.events.emit(magic.events.CLOSE_MAGIC_WINDOW, this)
         }
     }
 
