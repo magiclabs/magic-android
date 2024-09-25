@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import link.magic.DemoApp
 import link.magic.android.Magic
+import link.magic.android.MagicEvent
 import link.magic.android.core.relayer.MagicEventListener
 import link.magic.android.extension.oauth.oauth
 import link.magic.android.extension.oauth.requestConfiguration.OAuthConfiguration
@@ -251,9 +252,9 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener, Magi
         }
     }
 
-    override fun onMagicEvent(eventType: String, data: String) {
-        if (eventType == magic.events.CLOSED_BY_USER) {
-            magic.events.emit(magic.events.CLOSE_MAGIC_WINDOW, this)
+    override fun onMagicEvent(eventType: MagicEvent, data: String) {
+        if (eventType == MagicEvent.CLOSED_BY_USER) {
+            magic.events.emit(MagicEvent.CLOSE_MAGIC_WINDOW, this)
         }
     }
 
