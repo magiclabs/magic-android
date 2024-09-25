@@ -79,3 +79,62 @@ enum class EthNetwork {
     Mainnet, Goerli
 }
 
+enum class MagicEvent(val event: String) {
+    // only available when allowAllEvents is true on the Magic constructor
+    CLOSE_MAGIC_WINDOW("close-magic-window"),
+    CLOSED_BY_USER("closed-by-user-on-received"),
+
+    // LoginWithSmsOTPEventOnReceived
+    SMS_OTP_SENT("sms-otp-sent"),
+    INVALID_SMS_OTP("invalid-sms-otp"),
+    EXPIRED_SMS_OTP("expired-sms-otp"),
+
+    // LoginWithEmailOTPEventOnReceived
+    EMAIL_OTP_SENT("email-otp-sent"),
+    INVALID_EMAIL_OTP("invalid-email-otp"),
+    INVALID_MFA_OTP("invalid-mfa-otp"),
+    EXPIRED_EMAIL_OTP("expired-email-otp"),
+    MFA_SENT_HANDLE("mfa-sent-handle"),
+
+    // DeviceVerificationEventOnReceived
+    DEVICE_APPROVED("device-approved"),
+    DEVICE_NEEDS_APPROVAL("device-needs-approval"),
+    DEVICE_VERIFICATION_LINK_EXPIRED("device-verification-link-expired"),
+    DEVICE_VERIFICATION_EMAIL_SENT("device-verification-email-sent"),
+
+    // RecencyCheckEventOnReceived
+    PRIMARY_AUTH_FACTOR_NEEDS_VERIFICATION("Recency/auth-factor-needs-verification"),
+    PRIMARY_AUTH_FACTOR_VERIFIED("Recency/auth-factor-verified"),
+    RECENCY_INVALID_EMAIL_OTP("Recency/auth-factor-invalid-email-otp"),
+    RECENCY_EMAIL_EXPIRED("Recency/auth-factor-verification-email-expired"),
+    RECENCY_EMAIL_SENT("Recency/auth-factor-verification-email-sent"),
+    RECENCY_EMAIL_NOT_DELIVERABLE("Recency/auth-factor-verification-email-not-deliverable"),
+
+    // UpdateEmailEventOnReceived
+    NEW_EMAIL_NEEDS_VERIFICATION("UpdateEmail/new-email-needs-verification"),
+    EMAIL_UPDATED("UpdateEmail/email-updated"),
+    UPDATE_EMAIL_INVALID_EMAIL_OTP("UpdateEmail/new-email-invalid-email-otp"),
+    UPDATE_EMAIL_EXPIRED("UpdateEmail/new-email-verification-email-expired"),
+    UPDATE_EMAIL_SENT("UpdateEmail/new-email-verification-email-sent"),
+    UPDATE_EMAIL_NOT_DELIVERABLE("UpdateEmail/new-email-verification-email-not-deliverable"),
+    INVALID_EMAIL("UpdateEmail/new-email-invalid"),
+    EMAIL_ALREADY_EXISTS("UpdateEmail/new-email-already-exists"),
+
+    // AuthEventOnReceived
+    ID_TOKEN_CREATED("Auth/id-token-created"),
+
+    // EnableMFAEventOnReceived
+    MFA_SECRET_GENERATED("mfa-secret-generated"),
+    ENABLE_INVALID_MFA_OTP("invalid-mfa-otp"),
+    MFA_RECOVERY_CODES("mfa-recovery-codes");
+
+    companion object {
+        fun fromEvent(event: String): MagicEvent? {
+            return values().find { it.event == event }
+        }
+    }
+
+    override fun toString(): String {
+        return event
+    }
+}

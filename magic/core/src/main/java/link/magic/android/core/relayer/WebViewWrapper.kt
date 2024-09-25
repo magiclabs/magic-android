@@ -25,6 +25,7 @@ import androidx.webkit.WebViewFeature.WEB_MESSAGE_PORT_POST_MESSAGE
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import link.magic.android.Magic
+import link.magic.android.MagicEvent
 import link.magic.android.core.relayer.message.AnnoucementResult
 import link.magic.android.core.relayer.message.Event
 import link.magic.android.core.relayer.message.InboundMessageType
@@ -165,7 +166,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
                 // Notify the developer's listener
                 val type = object : TypeToken<ResponseData<Response<Event>>>() {}.type
                 val event = Gson().fromJson<ResponseData<Response<Event>>>(message, type)
-                magicEventListener?.onMagicEvent(event.response.result.event, message)
+                MagicEvent.fromEvent(event.response.result.event)?.let { magicEventListener?.onMagicEvent(it, message) }
             }
         }
     }

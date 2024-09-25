@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import link.magic.android.Magic
+import link.magic.android.MagicEvent
 import link.magic.android.core.relayer.MagicEventListener
 import link.magic.android.modules.wallet.requestConfiguration.RequestUserInfoWithUIConfiguration
 import link.magic.android.modules.wallet.requestConfiguration.WalletUserInfoEmailOptions
@@ -117,9 +118,9 @@ class MCFragment: Fragment(), MagicEventListener {
         }
     }
 
-    override fun onMagicEvent(eventType: String, data: String) {
-        if (eventType == magic.events.CLOSED_BY_USER_EVENT) {
-            magic.events.emit(magic.events.CLOSE_MAGIC_WINDOW_EVENT, this.requireContext())
+    override fun onMagicEvent(eventType: MagicEvent, data: String) {
+        if (eventType == MagicEvent.CLOSED_BY_USER) {
+            magic.events.emit(MagicEvent.CLOSE_MAGIC_WINDOW, this.requireContext())
         }
     }
 }
