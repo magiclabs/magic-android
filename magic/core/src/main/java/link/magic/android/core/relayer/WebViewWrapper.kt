@@ -58,7 +58,7 @@ class WebViewWrapper internal constructor(context: Context, private val urlBuild
     private val debouncer: Debouncer = Debouncer()
 
      init {
-         WebView.setWebContentsDebuggingEnabled(true)
+         WebView.setWebContentsDebuggingEnabled(false)
 
          // if updated context is an activity context, attach webview to the current activity
          if (context is Application) {
