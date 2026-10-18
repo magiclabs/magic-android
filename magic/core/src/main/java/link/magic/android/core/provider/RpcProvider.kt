@@ -98,7 +98,6 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
         /* Overwrite id with random Long number */
         val newRandomId = Number().generateRandomId()
 
-        val result = CompletableFuture<T>()
         val rpcPayload = RequestForSerialization(requestPayload.method, requestPayload.params, newRandomId)
         val request = MagicRequestData(rpcPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams);
 
@@ -106,7 +105,28 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
         val message =  GsonExtension()
             .serialize()
                 .toJson(request)
-                .replace("\\n", "")
+
+        return enqueue(message, newRandomId, responseType)
+    }
+
+    /**
+     * Send a request whose `params` is a single object, not a list, to the webview.
+     */
+    internal fun <T : Response<*>> sendAsync(method: String, params: Any, responseType: Class<T>): CompletableFuture<T> {
+        val newRandomId = Number().generateRandomId()
+
+        val rpcPayload = ObjectParamsRequest(method, params, newRandomId)
+        val request = MagicObjectParamsRequestData(rpcPayload, OutboundMessageType.MAGIC_HANDLE_REQUEST, urlBuilder.encodedParams)
+
+        val message = GsonExtension()
+            .serialize()
+            .toJson(request)
+
+        return enqueue(message, newRandomId, responseType)
+    }
+
+    private fun <T : Response<*>> enqueue(message: String, id: Long, responseType: Class<T>): CompletableFuture<T> {
+        val result = CompletableFuture<T>()
 
         if (Magic.debugEnabled) {
             Log.d("Magic", "Prepare Message: $message")
@@ -114,7 +134,7 @@ class RpcProvider internal constructor(initialContext: Context, val urlBuilder: 
 
         /* send the promise to webview queue waiting for dispatch.
         When the payload result comes back the handler will resolve the result asynchronously */
-        overlay.enqueue(message, newRandomId, fun (responseString: String) {
+        overlay.enqueue(message, id, fun (responseString: String) {
                     val data = Gson().fromJson(responseString, responseType)
                     result.complete(data)
                 })

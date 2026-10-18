@@ -11,7 +11,8 @@ open class BaseOptions(
     val host: String,
     val locale: String,
     val bundleId: String,
-    val meta: Map<String, Any>
+    val meta: Map<String, Any>,
+    val ext: Map<String, Any>? = null
 ): Serializable {
     val sdk = "magic-sdk-android"
 }

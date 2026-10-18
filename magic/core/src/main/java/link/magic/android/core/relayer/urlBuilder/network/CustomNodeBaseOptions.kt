@@ -11,5 +11,6 @@ internal class CustomNodeBaseOptions internal constructor(
     mgboxHost: String,
     locale: String,
     bundleId: String,
-    meta: Map<String, Any>
-) : BaseOptions(apiKey, mgboxHost, locale, bundleId, meta)
+    meta: Map<String, Any>,
+    ext: Map<String, Any>? = null
+) : BaseOptions(apiKey, mgboxHost, locale, bundleId, meta, ext)
