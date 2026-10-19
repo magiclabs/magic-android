@@ -1,4 +1,3 @@
 include ':magic:ext:oauth'
 include ':example'
 include ':magic:core'
-include ':magic:ext:oidc'

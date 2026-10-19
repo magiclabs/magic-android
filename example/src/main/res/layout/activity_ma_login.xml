@@ -71,37 +71,10 @@
                     android:text="@string/social_login" />
 
                 <EditText
-                    android:id="@+id/provider_id_text"
-                    android:layout_width="298dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/social_login_btn"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/provider_id_hint"
-                    android:inputType="text" />
-                <EditText
-                    android:id="@+id/jwt_text"
-                    android:layout_width="298dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/provider_id_text"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/jwt_hint"
-                    android:inputType="text" />
-                <Button
-                    android:id="@+id/openId_login_btn"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/jwt_text"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/openid_login" />
-
-                <EditText
                     android:id="@+id/recovery_email_input"
                     android:layout_width="298dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/openId_login_btn"
+                    android:layout_below="@+id/social_login_btn"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:autofillHints="phone"

@@ -13,8 +13,6 @@ import link.magic.android.extension.oauth.oauth
 import link.magic.android.extension.oauth.requestConfiguration.OAuthConfiguration
 import link.magic.android.extension.oauth.requestConfiguration.OAuthProvider
 import link.magic.android.extension.oauth.response.OAuthResponse
-import link.magic.android.extension.oidc.openid
-import link.magic.android.extension.oidc.requestConfiguration.OpenIdConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithEmailOTPConfiguration
 import link.magic.android.modules.auth.requestConfiguration.LoginWithSMSConfiguration
 import link.magic.android.modules.auth.requestConfiguration.OverridesConfiguration
@@ -54,10 +52,6 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener, Magi
         val socialLoginButton : Button = findViewById<Button>(R.id.social_login_btn)
         socialLoginButton.setOnClickListener {
             loginViaSocialProviders(it)
-        }
-        val openIdLoginButton : Button = findViewById<Button>(R.id.openId_login_btn)
-        openIdLoginButton.setOnClickListener {
-            loginWithOpenId(it)
         }
 
         val mcLoginButton : Button = findViewById<Button>(R.id.mc_login_btn)
@@ -186,27 +180,6 @@ class MALoginActivity : UtilActivity(), AdapterView.OnItemSelectedListener, Magi
             Log.d("error", err.toString())
         }
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    /**
-     * oidc Extension
-     */
-    private fun loginWithOpenId(v: View) {
-        val providerId = findViewById<EditText>(R.id.provider_id_text)
-        val jwt = findViewById<EditText>(R.id.jwt_text)
-        val configuration = OpenIdConfiguration(jwt.text.toString(), providerId.text.toString())
-        val did = (magic as Magic).openid.loginWithOIDC(this, configuration)
-        did.whenComplete { response: DIDToken?, error: Throwable? ->
-            if (error != null) {
-                Log.d("error", error.localizedMessage)
-            }
-            if (response != null && !response.hasError()) {
-                response.result?.let { Log.d("login", it) }
-
-            } else {
-                Log.d("login", "OpenID Not Logged in")
-            }
-        }
     }
 
     /**
