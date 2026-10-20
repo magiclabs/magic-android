@@ -5,13 +5,19 @@ import link.magic.android.core.provider.RpcProvider
 import link.magic.android.core.relayer.urlBuilder.URLBuilder
 import link.magic.android.core.relayer.urlBuilder.network.CustomNodeConfiguration
 import link.magic.android.modules.auth.AuthModule
+import link.magic.android.modules.bitcoin.BitcoinConfiguration
+import link.magic.android.modules.bitcoin.BitcoinExtension
 import link.magic.android.modules.events.EventModule
+import link.magic.android.modules.extension.ExtensionConfiguration
+import link.magic.android.modules.extension.ExtensionConfigurations
+import link.magic.android.modules.solana.SolanaConfiguration
+import link.magic.android.modules.solana.SolanaExtension
 import link.magic.android.modules.user.UserModule
 import link.magic.android.modules.wallet.WalletModule
 import link.magic.android.modules.web3j.signTypedData.SignTypedDataExtension
 import java.util.*
 
-class Magic private constructor(applicationContext: Context, urlBuilder: URLBuilder) {
+class Magic private constructor(applicationContext: Context, urlBuilder: URLBuilder, extensions: List<ExtensionConfiguration>) {
 
     companion object {
         var debugEnabled = false
@@ -52,21 +58,33 @@ class Magic private constructor(applicationContext: Context, urlBuilder: URLBuil
      */
     val events = EventModule(rpcProvider)
 
+    /**
+     * Contains Solana methods. `null` unless `Magic` was created with a [SolanaConfiguration].
+     */
+    val solana: SolanaExtension? =
+        if (extensions.any { it is SolanaConfiguration }) SolanaExtension(rpcProvider) else null
+
+    /**
+     * Contains Bitcoin methods. `null` unless `Magic` was created with a [BitcoinConfiguration].
+     */
+    val bitcoin: BitcoinExtension? =
+        if (extensions.any { it is BitcoinConfiguration }) BitcoinExtension(rpcProvider) else null
+
     // Default initializer
-    constructor(ctx:Context, apiKey: String, locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName, emptyMap()))
+    constructor(ctx:Context, apiKey: String, locale: String = defaultLocale, extensions: List<ExtensionConfiguration> = emptyList())
+            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName, emptyMap(), ExtensionConfigurations.toParams(extensions)), extensions)
 
     // Meta initializer
-    constructor(ctx:Context, apiKey: String, meta: Map<String, Any>, locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName, meta))
+    constructor(ctx:Context, apiKey: String, meta: Map<String, Any>, locale: String = defaultLocale, extensions: List<ExtensionConfiguration> = emptyList())
+            : this(ctx, URLBuilder(apiKey, EthNetwork.Mainnet, locale, ctx.packageName, meta, ExtensionConfigurations.toParams(extensions)), extensions)
 
     // Eth Network initializer
-    constructor(ctx:Context, apiKey: String, ethNetwork: EthNetwork, locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, ethNetwork, locale, ctx.packageName, emptyMap()))
+    constructor(ctx:Context, apiKey: String, ethNetwork: EthNetwork, locale: String = defaultLocale, extensions: List<ExtensionConfiguration> = emptyList())
+            : this(ctx, URLBuilder(apiKey, ethNetwork, locale, ctx.packageName, emptyMap(), ExtensionConfigurations.toParams(extensions)), extensions)
 
     // Custom Node Initializer
-    constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, meta: Map<String, Any> = emptyMap(), locale: String = defaultLocale)
-            : this(ctx, URLBuilder(apiKey, customNodeConfiguration, locale, ctx.packageName, meta))
+    constructor(ctx:Context, apiKey: String, customNodeConfiguration: CustomNodeConfiguration, meta: Map<String, Any> = emptyMap(), locale: String = defaultLocale, extensions: List<ExtensionConfiguration> = emptyList())
+            : this(ctx, URLBuilder(apiKey, customNodeConfiguration, locale, ctx.packageName, meta, ExtensionConfigurations.toParams(extensions)), extensions)
 
     // Method to change the activity context when needed
     fun setContext(newContext: Context) {

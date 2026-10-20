@@ -24,15 +24,15 @@ class URLBuilder private constructor(var options: BaseOptions, val apiKey: Strin
     val encodedParams: String
         get() {
             val paramsInBytes = gson.toJson(options).toByteArray()
-            return Base64.encodeToString(paramsInBytes, Base64.DEFAULT)
+            return Base64.encodeToString(paramsInBytes, Base64.NO_WRAP)
         }
 
     companion object {
         private const val mgboxHost = "https://box.magic.link"
     }
 
-    internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String, meta: Map<String, Any>)
-            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId, meta), apiKey)
-    internal constructor(apiKey: String, network: EthNetwork, locale: String, bundleId: String, meta: Map<String, Any>)
-            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId, meta), apiKey)
+    internal constructor(apiKey: String, customNode: CustomNodeConfiguration, locale: String, bundleId: String, meta: Map<String, Any>, ext: Map<String, Any>? = null)
+            : this(CustomNodeBaseOptions(apiKey, customNode, mgboxHost, locale, bundleId, meta, ext), apiKey)
+    internal constructor(apiKey: String, network: EthNetwork, locale: String, bundleId: String, meta: Map<String, Any>, ext: Map<String, Any>? = null)
+            : this(NetworkBaseOptions(apiKey, network.toString().lowercase(), mgboxHost, locale, bundleId, meta, ext), apiKey)
 }
